@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadridge — Session Runner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --brand: #E63329;
+    --teal: #0D9488;
+    --teal-bg: rgba(13,148,136,0.08);
+    --green: #38BB94;
+    --green-bg: rgba(56,187,148,0.1);
+    --amber: #FFA030;
+    --amber-bg: rgba(255,160,48,0.1);
+    --red: #F13C47;
+    --red-bg: rgba(241,60,71,0.1);
+    --purple: #A78BFA;
+    --purple-bg: rgba(167,139,250,0.1);
+    --bg: #0B0F1A;
+    --bg-card: #141926;
+    --bg-card-alt: #1C2333;
+    --bg-hover: #1E2740;
+    --text: #D1D5DB;
+    --text-muted: #6B7280;
+    --text-bright: #F3F4F6;
+    --border: #1F2937;
+    --border-light: #374151;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,15,26,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    height: 56px;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .topbar-logo {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--brand);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .topbar-client {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-bright);
+  }
+
+  /* BEAT NAV */
+  .beat-nav {
+    display: flex;
+    gap: 0;
+  }
+  .beat-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .beat-tab:hover { color: var(--text); }
+  .beat-tab.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+  .beat-tab.completed {
+    color: var(--green);
+  }
+  .beat-tab.completed::after {
+    content: ' ✓';
+    font-size: 0.65rem;
+  }
+
+  /* TIMER */
+  .timer-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .timer {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-bright);
+    min-width: 5rem;
+    text-align: center;
+  }
+  .timer.warning { color: var(--amber); }
+  .timer.danger { color: var(--red); }
+  .timer-btn {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .timer-btn:hover { background: var(--bg-hover); }
+  .timer-btn.running { border-color: var(--green); color: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    transition: width 0.5s ease;
+  }
+
+  /* INFO STRIP */
+  .info-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.5rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .info-strip .tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+  }
+  .tag-green { background: var(--green-bg); color: var(--green); }
+  .tag-amber { background: var(--amber-bg); color: var(--amber); }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* BEAT PANELS */
+  .beat-panel { display: none; }
+  .beat-panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.75rem;
+  }
+  .card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.65;
+  }
+
+  /* OPENING MOVE */
+  .opening-move {
+    background: var(--teal-bg);
+    border: 1px solid rgba(13,148,136,0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .opening-move .label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .opening-move .script {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--text-bright);
+    line-height: 1.6;
+  }
+
+  /* SIGNAL TRACKER */
+  .signal-group {
+    margin-bottom: 1.5rem;
+  }
+  .signal-group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .signal-group-title.green { color: var(--green); }
+  .signal-group-title.amber { color: var(--amber); }
+  .signal-group-title.purple { color: var(--purple); }
+
+  .signal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+  }
+  .signal:hover { background: var(--bg-hover); }
+  .signal .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .signal.tagged .dot {
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(56,187,148,0.4);
+  }
+  .signal .signal-text { color: var(--text); }
+  .signal.tagged .signal-text { color: var(--text-bright); font-weight: 500; }
+
+  /* PROBE QUESTIONS */
+  .probe {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .probe:hover { border-color: var(--border-light); }
+  .probe.asked {
+    border-color: var(--green);
+    background: rgba(56,187,148,0.04);
+  }
+  .probe .probe-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .probe .probe-badge.doc { background: var(--green-bg); color: var(--green); }
+  .probe .probe-badge.covenant { background: var(--amber-bg); color: var(--amber); }
+  .probe .probe-badge.workflow { background: var(--purple-bg); color: var(--purple); }
+  .probe .probe-badge.tech { background: var(--teal-bg); color: var(--teal); }
+  .probe .probe-badge.anchor { background: var(--red-bg); color: var(--red); }
+
+  .probe .question {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+  .probe .listen-for {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .probe .listen-for strong { color: var(--text); }
+  .probe .asked-check {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--green);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .probe.asked .asked-check { opacity: 1; }
+
+  /* TASHDE */
+  .tashde-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .tashde-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .tashde-item .letter {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--teal);
+    margin-bottom: 0.25rem;
+  }
+  .tashde-item .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .tashde-item .prompt {
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .tashde-item textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-bright);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    resize: vertical;
+    min-height: 60px;
+  }
+  .tashde-item textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+
+  /* SYNTHESIS CONCEPTS */
+  .concept {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border);
+    border-radius: 0 10px 10px 0;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .concept:hover { border-left-color: var(--teal); }
+  .concept.deployed {
+    border-left-color: var(--green);
+    background: rgba(56,187,148,0.04);
+  }
+  .concept .concept-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+  .concept .concept-script {
+    font-size: 0.85rem;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  .concept .concept-when {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .concept .deployed-badge {
+    float: right;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .concept.deployed .deployed-badge { opacity: 1; }
+
+  /* SHOW SECTION */
+  .demo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .demo-card.primary { border-left: 4px solid var(--green); }
+  .demo-card.secondary { border-left: 4px solid var(--amber); }
+  .demo-card .demo-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .demo-card.primary .demo-tag { color: var(--green); }
+  .demo-card.secondary .demo-tag { color: var(--amber); }
+  .demo-card h3 { margin-bottom: 0.75rem; }
+
+  /* VALIDATION */
+  .checkpoint {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .checkpoint:hover { border-color: var(--border-light); }
+  .checkpoint.confirmed { border-color: var(--green); }
+  .checkpoint.corrected { border-color: var(--amber); }
+  .checkpoint .check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 2px solid var(--border-light);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: all 0.15s;
+    margin-top: 2px;
+  }
+  .checkpoint.confirmed .check-icon {
+    border-color: var(--green);
+    background: var(--green);
+    color: var(--bg);
+  }
+  .checkpoint.corrected .check-icon {
+    border-color: var(--amber);
+    background: var(--amber);
+    color: var(--bg);
+  }
+  .checkpoint .check-text {
+    font-size: 0.9rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+  }
+  .checkpoint .check-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* CLOSE CARD */
+  .close-card {
+    background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(230,51,41,0.05));
+    border: 1px solid var(--teal);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .close-card h3 { color: var(--teal); }
+
+  /* NOTES AREA */
+  .notes-area {
+    margin-top: 1.5rem;
+  }
+  .notes-area textarea {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-bright);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 1rem;
+    resize: vertical;
+    min-height: 100px;
+  }
+  .notes-area textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+  .notes-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  /* QUOTE */
+  .transcript-quote {
+    border-left: 3px solid var(--teal);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    background: var(--teal-bg);
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .transcript-quote .attr {
+    font-style: normal;
+    font-size: 0.75rem;
+    color: var(--teal);
+    font-weight: 600;
+    margin-top: 0.4rem;
+  }
+
+  /* TWO COLUMN */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  /* ROOM MODE */
+  .room-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(230,51,41,0.3);
+    transition: all 0.2s;
+  }
+  .room-toggle:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(230,51,41,0.4); }
+
+  /* SPECIFICITY CHECKPOINT */
+  .spec-check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .spec-check .spec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .spec-check.checked .spec-dot {
+    border-color: var(--green);
+    background: var(--green);
+  }
+  .spec-check.checked { color: var(--text-bright); font-weight: 500; }
+
+  /* STAIRCASE TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  thead th {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-card-alt);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td strong { color: var(--text-bright); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-logo">Conquer</span>
+    <span class="topbar-client">Quadridge — Whiteboard Session</span>
+  </div>
+  <div class="beat-nav" id="beatNav">
+    <div class="beat-tab active" data-beat="1" onclick="switchBeat(1)">1 · Context</div>
+    <div class="beat-tab" data-beat="2" onclick="switchBeat(2)">2 · Probe</div>
+    <div class="beat-tab" data-beat="3" onclick="switchBeat(3)">3 · Synthesis</div>
+    <div class="beat-tab" data-beat="4" onclick="switchBeat(4)">4 · Show</div>
+    <div class="beat-tab" data-beat="5" onclick="switchBeat(5)">5 · Validate & Close</div>
+  </div>
+  <div class="timer-area">
+    <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">Start</button>
+    <div class="timer" id="timer">00:00</div>
+  </div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 20%"></div></div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <span><strong>Quadridge</strong> · South Africa · Corporate Governance & Structured Finance · Capital Markets</span>
+  <span>
+    <strong>Quadridge:</strong> David, Kurt, Sinah
+    <strong style="margin-left: 1rem;">Conquer:</strong> Bolaji, David Carter, Luke, Nauris
+    <span class="tag tag-amber">NDA status TBC</span>
+  </span>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- ===== BEAT 1: CONTEXT ===== -->
+  <div class="beat-panel active" data-beat="1">
+
+    <div class="opening-move">
+      <div class="label">Opening Move — First 10 Minutes</div>
+      <div class="script">"Thanks for making time for this. Last session you walked us through three areas — the legal document analysis challenge, the covenant monitoring work, and the admin workflow side. Before we dig into any of those, has anything changed since we last spoke? Any new priorities, or anything that's moved up the list?"</div>
+    </div>
+
+    <div class="card">
+      <h3>Why this opening works</h3>
+      <p>It proves we retained what they said (which matters to a small firm — they're used to being forgotten by bigger vendors). It gives them space to redirect. And it starts the session with them talking, not us.</p>
+      <p>If Sinah is new to the conversation, ask her to introduce herself and describe what she does day-to-day. That's gold — it's the operational detail we need.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <h3>Signal Tracker</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Click signals as you hear them. These tell you which use case to prioritise.</p>
+
+          <div class="signal-group">
+            <div class="signal-group-title green">Document Analysis Signals</div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Mentions 600–800 page legal docs</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Admits to skimming / not reading fully</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Board pack prep is painful / time-consuming</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Asked to comment on legals they can't fully review</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Financial statement red flags get missed</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Wants "high level summaries" of legal docs</span></div>
+          </div>
+
+          <div class="signal-group">
+            <div class="signal-group-title amber">Covenant Monitoring Signals</div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Covenant checking done in Excel / manually</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Cash flow reconciliation against bank statements</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Banks pushing more oversight onto them</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Non-bank FIs want them to prepare reports</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Human error risk on manual checks</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Volume growing but team isn't</span></div>
+          </div>
+
+          <div class="signal-group">
+            <div class="signal-group-title purple">Workflow / Admin Signals</div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Entity setup follows same process every time</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Tax deadlines tracked manually</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Deadlines slipping through cracks</span></div>
+            <div class="signal" onclick="toggleSignal(this)"><div class="dot"></div><span class="signal-text">Same forms filled out every time</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3>Key Listening Points</h3>
+          <h4>Who speaks first?</h4>
+          <p>On the discovery call, David did the heavy lifting while Kurt set context. If David leads again, he's the operational champion. If Kurt takes over, they may have elevated the strategic framing.</p>
+          <h4>What does Sinah do?</h4>
+          <p>She wasn't on the discovery call. If she's operational staff (admin, covenant checking, legal review), that's exactly who David Carter asked them to bring. Get her talking early.</p>
+          <h4>Has the scope shifted?</h4>
+          <p>David mentioned banks pushing more oversight responsibility onto them. If that's accelerated since the discovery call, covenant monitoring may have overtaken document analysis as the burning platform.</p>
+          <h4>Cost sensitivity</h4>
+          <p>David said "we're all very cost-conscious" and wants to "start with the small ones first." Don't come in with a big vision pitch. Come in with a bounded, fast, affordable Phase 1.</p>
+        </div>
+
+        <div class="card">
+          <h3>Discovery Call Quotes</h3>
+          <div class="transcript-quote">
+            "You just cannot actually go through all of that detail, so we just literally skim."
+            <div class="attr">— David (Quadridge), on 600–800 page legal documents</div>
+          </div>
+          <div class="transcript-quote">
+            "We're moving into a space where we are being made responsible for oversight."
+            <div class="attr">— David (Quadridge), on growing scope from banks</div>
+          </div>
+          <div class="transcript-quote">
+            "It can be easy for one or two to slip through the cracks — miss a deadline here and there."
+            <div class="attr">— David (Quadridge), on compliance deadlines</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes-area">
+      <div class="notes-label">Live Notes — Context</div>
+      <textarea placeholder="Capture what they say in the opening. What's changed? Who's talking? What's the energy?"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== BEAT 2: PROBE ===== -->
+  <div class="beat-panel" data-beat="2">
+
+    <div class="card">
+      <h3>Six Surgical Questions</h3>
+      <p>Deploy responsively — don't read these in order. Listen for which use case is getting energy and follow it. Click each question when asked.</p>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge doc">Document Analysis</div>
+      <div class="question">Q1: "When a new transaction lands — walk me through it. Who receives the 600 pages? What do they do first? What are they actually looking for? How long before the team feels confident they understand the structure?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Named people, specific steps, time estimates, what gets missed. If Sinah does this work, get her version — it'll be more honest than David's.</div>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge doc">Board Packs</div>
+      <div class="question">Q2: "On the board packs — how far in advance do you receive them? What's the prep process before a board meeting? Where do the red flags usually hide — in the financials, the narrative, or in what's missing?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Time pressure (days vs weeks), whether they're rubber-stamping or actually reviewing, specific examples of things they've caught or missed.</div>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge covenant">Covenant Monitoring</div>
+      <div class="question">Q3: "On the covenant monitoring — how does the data come in? Email, portal, spreadsheet? What does the checking process look like today? How often do breaches get caught late?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Data format and delivery method, Excel dependency, frequency of checks, consequences of late catches. This tells us integration complexity.</div>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge workflow">Deadlines & Compliance</div>
+      <div class="question">Q4: "How are tax deadlines and filing dates currently tracked? Is it a shared system or individual knowledge? What happened last time something slipped?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Whether tracking is centralised or in someone's head, real consequences of missed deadlines (regulatory, financial, reputational), frequency of near-misses.</div>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge tech">Technology</div>
+      <div class="question">Q5: "What systems are you running today? Email client, document management, anything for covenant tracking? Has anyone tried any AI tools internally?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Outlook vs Gmail, any DMS, Excel vs specialist tools, cloud vs on-prem, any existing AI usage (even ChatGPT for ad hoc tasks).</div>
+    </div>
+
+    <div class="probe" onclick="toggleProbe(this)">
+      <span class="asked-check">✓ ASKED</span>
+      <div class="probe-badge anchor">Critical Anchor</div>
+      <div class="question">Q6: "If we get this right — what would have to be true for you to say in six months' time, this was one of the best decisions we made this year?"</div>
+      <div class="listen-for"><strong>Listen for:</strong> Whether the answer is about cost saving, risk reduction, capacity, or credibility with their bank clients. This sets the success criteria in their language. Write it down verbatim.</div>
+    </div>
+
+    <div class="card" style="margin-top: 1.5rem;">
+      <h3>Instinct Probes — If Conversation Stalls</h3>
+      <p style="font-size: 0.85rem;">"Of the three areas you mentioned — documents, monitoring, admin — which one keeps you up at night?"</p>
+      <p style="font-size: 0.85rem;">"If you could wave a magic wand and fix one thing tomorrow, what would it be?"</p>
+      <p style="font-size: 0.85rem;">"When you said the banks are pushing more oversight onto you — is that trend accelerating?"</p>
+      <p style="font-size: 0.85rem;">"How many transactions are you currently overseeing at any one time?"</p>
+    </div>
+
+    <!-- TASHDE -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h3>TASHDE Deep Map</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Deploy once the lead use case is clear. Map the process in real time.</p>
+      <div class="tashde-grid">
+        <div class="tashde-item">
+          <div class="letter">T</div>
+          <div class="label">Triggers</div>
+          <div class="prompt">What starts the process? Email, portal, phone?</div>
+          <textarea placeholder="Capture triggers..."></textarea>
+        </div>
+        <div class="tashde-item">
+          <div class="letter">A</div>
+          <div class="label">Actors</div>
+          <div class="prompt">Who touches it? In what order?</div>
+          <textarea placeholder="Capture actors..."></textarea>
+        </div>
+        <div class="tashde-item">
+          <div class="letter">S</div>
+          <div class="label">Systems</div>
+          <div class="prompt">What tools? Where does data live between steps?</div>
+          <textarea placeholder="Capture systems..."></textarea>
+        </div>
+        <div class="tashde-item">
+          <div class="letter">H</div>
+          <div class="label">Handoffs</div>
+          <div class="prompt">Where does it pass between people? What gets lost?</div>
+          <textarea placeholder="Capture handoffs..."></textarea>
+        </div>
+        <div class="tashde-item">
+          <div class="letter">D</div>
+          <div class="label">Decisions</div>
+          <div class="prompt">Where does human judgment happen? Who decides?</div>
+          <textarea placeholder="Capture decisions..."></textarea>
+        </div>
+        <div class="tashde-item">
+          <div class="letter">E</div>
+          <div class="label">Exceptions</div>
+          <div class="prompt">What breaks the normal flow? How often? Cost?</div>
+          <textarea placeholder="Capture exceptions..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPECIFICITY CHECKPOINT -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h3>Specificity Checkpoint</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Before moving to Synthesis — have we got enough to write a credible pre-proposal?</p>
+      <div class="spec-check" onclick="toggleSpec(this)"><div class="spec-dot"></div> Named the specific process to scope</div>
+      <div class="spec-check" onclick="toggleSpec(this)"><div class="spec-dot"></div> Understood volume — how many documents / transactions / entities</div>
+      <div class="spec-check" onclick="toggleSpec(this)"><div class="spec-dot"></div> Identified systems involved</div>
+      <div class="spec-check" onclick="toggleSpec(this)"><div class="spec-dot"></div> Understood human judgment vs. rules boundary</div>
+      <div class="spec-check" onclick="toggleSpec(this)"><div class="spec-dot"></div> Got Q6 answer — success criteria in their words</div>
+    </div>
+
+    <div class="notes-area">
+      <div class="notes-label">Live Notes — Probe</div>
+      <textarea placeholder="Capture key details, specific names, process steps, pain points..."></textarea>
+    </div>
+  </div>
+
+  <!-- ===== BEAT 3: SYNTHESIS ===== -->
+  <div class="beat-panel" data-beat="3">
+
+    <div class="card">
+      <h3>Earned Concepts</h3>
+      <p>Deploy only when Quadridge describes their own version of the problem. These are synthesis frames, not pitches. Click when deployed.</p>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">Unstructured documents → Structured intelligence</div>
+      <div class="concept-script">"Every transaction doc that lands on your desk is 600 pages of unstructured data. Someone on your team transforms that — reading it, extracting the obligations, building a picture. That transformation is exactly what AI does well, consistently, at scale. And it can show you where it found everything."</div>
+      <div class="concept-when">Deploy when: They describe the legal document review pain — skimming, missing things, not enough time.</div>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">Proactive flag before the board meeting</div>
+      <div class="concept-script">"The value isn't catching issues — it's catching them before you're in the room. If you're seeing a red flag in the financials for the first time during the board meeting, it's too late. The value is surfacing it a week before, with the source reference, so you go in prepared."</div>
+      <div class="concept-when">Deploy when: They describe board pack prep, financial statement review, or governance oversight.</div>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">The visible problem is numerical — the cause is a language problem</div>
+      <div class="concept-script">"When a covenant breach gets caught late or a cash flow doesn't reconcile — the symptom looks like a maths problem. But the root cause is almost always upstream: a document wasn't read properly, a change wasn't captured, an obligation was missed in 800 pages of legalese. Fix the document intelligence layer and the downstream numbers start taking care of themselves."</div>
+      <div class="concept-when">Deploy when: They describe covenant monitoring failures, Excel-based checking, or manual reconciliation.</div>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">Growing scope, fixed team — the math doesn't work</div>
+      <div class="concept-script">"You said the banks are pushing more oversight onto you. That's more transactions, more documents, more covenants to monitor — but the team stays the same size. At some point the math doesn't work. The question isn't whether to bring in AI — it's whether you do it before something slips through or after."</div>
+      <div class="concept-when">Deploy when: They mention growing responsibilities, banks pushing work to them, or staffing constraints.</div>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">Start narrow, ship fast, earn the right to expand</div>
+      <div class="concept-script">"You said you want to start with the small ones first, quickly implemented. That's exactly right. Every engagement that works starts with a single, bounded, high-frequency problem. Solve it completely. Ship it. See the benefit. Then the next conversation happens naturally."</div>
+      <div class="concept-when">Deploy when: David reiterates cost-consciousness or phased approach. Reinforces his own instinct back to him.</div>
+    </div>
+
+    <div class="concept" onclick="toggleConcept(this)">
+      <span class="deployed-badge">Deployed ✓</span>
+      <div class="concept-title">The staircase — build in our cloud first, integrate later</div>
+      <div class="concept-script">"Fastest path isn't starting in your environment — it's starting in ours with your documents, proving the extraction and analysis works, then moving it into your systems. Phase 1 in Conquer cloud. Phase 2 into yours. Ships in weeks, not months."</div>
+      <div class="concept-when">Deploy when: Conversation turns to how / where / feasibility. Removes the "this will take forever" objection.</div>
+    </div>
+
+    <div class="notes-area">
+      <div class="notes-label">Live Notes — Synthesis</div>
+      <textarea placeholder="Capture which concepts landed, how they reacted, what language they used back..."></textarea>
+    </div>
+  </div>
+
+  <!-- ===== BEAT 4: SHOW ===== -->
+  <div class="beat-panel" data-beat="4">
+
+    <div class="demo-card primary">
+      <div class="demo-tag">Primary — Show This</div>
+      <h3>Asset Management Case Study — Deep Dive</h3>
+      <p>Jeremy walked through this on the discovery call and it landed. In the whiteboard, go deeper:</p>
+      <p><strong>The setup:</strong> Private credit asset manager. 500-page lending documents. Need to monitor covenants monthly — leverage ratios, cash reserves, reporting obligations. Previously done by humans reading PDFs and entering into spreadsheets.</p>
+      <p><strong>What we built:</strong> AI ingests the lending document, extracts the seven things that need monitoring, tells you exactly which page it found each one on. Dashboard shows 100 companies: these three are amber, this one has breached cash reserve. Source referencing on every flag so the analyst can verify in seconds.</p>
+      <p><strong>Why it's relevant:</strong> This is almost exactly what Quadridge does — structured finance oversight, covenant monitoring, document analysis. Different geography, same problem pattern.</p>
+      <h4>Draw on the whiteboard</h4>
+      <p>The before/after of their document analysis workflow:</p>
+      <p><strong>Today:</strong> 800 pages arrive → human skims → manual extraction → hope nothing was missed → Excel tracking → human checks covenants.</p>
+      <p><strong>Tomorrow:</strong> 800 pages arrive → AI extracts obligations, covenants, key terms → human reviews structured summary with source links → dashboard flags what needs attention → analyst focuses only on exceptions.</p>
+      <p style="color: var(--teal); font-weight: 600; font-size: 0.85rem;">Let them correct the diagram. The corrections are the signal we need.</p>
+    </div>
+
+    <div class="demo-card secondary">
+      <div class="demo-tag">Secondary — If Relevant</div>
+      <h3>Private Equity Document Processing Example</h3>
+      <p>Jeremy also mentioned this on the discovery call: large PE manager receiving 1,000 proposals a year in all formats (PowerPoint, Excel, PDF). Investment committee requires a strict 50-page template. AI pulls the thousand into 450 structured templates, 90% complete. Expensive decision-makers focus on decisions, not data entry.</p>
+      <p><strong>Use if:</strong> The conversation goes toward their document analysis challenge specifically — turning unstructured legal documents into structured outputs they can act on.</p>
+    </div>
+
+    <div class="card">
+      <h3>What NOT to Show</h3>
+      <p><strong>Don't repeat the discovery call demo at surface level.</strong> They've already seen the overview. Go deeper or go home.</p>
+      <p><strong>Don't show anything that looks like a generic product.</strong> Kurt and David explicitly value bespoke. Jeremy positioned us as "we build outside your environment to your client specification" and it landed. Everything should feel built-for-them.</p>
+    </div>
+
+    <div class="notes-area">
+      <div class="notes-label">Live Notes — Show</div>
+      <textarea placeholder="Capture reactions, questions, corrections to the whiteboard diagram..."></textarea>
+    </div>
+  </div>
+
+  <!-- ===== BEAT 5: VALIDATE & CLOSE ===== -->
+  <div class="beat-panel" data-beat="5">
+
+    <div class="card">
+      <h3>Validation Checkpoints</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Read these back one by one. Click to mark confirmed or double-click if they correct something.</p>
+    </div>
+
+    <div class="checkpoint" onclick="cycleCheck(this)">
+      <div class="check-icon"></div>
+      <div>
+        <div class="check-text">"We understand the primary challenge to be [their words — likely document analysis / covenant oversight]. Is that right?"</div>
+        <div class="check-note">Use their exact language from the session, not yours.</div>
+      </div>
+    </div>
+
+    <div class="checkpoint" onclick="cycleCheck(this)">
+      <div class="check-icon"></div>
+      <div>
+        <div class="check-text">"The use case with the clearest fit for a first build is [document analysis / covenant monitoring]. Does that match your instinct?"</div>
+        <div class="check-note">Let them name it. If they hesitate, offer: "If you had to pick one to start with?"</div>
+      </div>
+    </div>
+
+    <div class="checkpoint" onclick="cycleCheck(this)">
+      <div class="check-icon"></div>
+      <div>
+        <div class="check-text">"The constraint that matters most is [speed / cost / risk / credibility with your bank clients]. Have we got that right?"</div>
+        <div class="check-note">David signalled cost-consciousness. But listen — it might be credibility or risk.</div>
+      </div>
+    </div>
+
+    <div class="checkpoint" onclick="cycleCheck(this)">
+      <div class="check-icon"></div>
+      <div>
+        <div class="check-text">"Six months from now, success would look like [their Q6 answer]. That's what we're building to."</div>
+        <div class="check-note">This is the anchor for the pre-proposal. If you didn't get Q6, ask it now.</div>
+      </div>
+    </div>
+
+    <div class="checkpoint" onclick="cycleCheck(this)">
+      <div class="check-icon"></div>
+      <div>
+        <div class="check-text">"Is there anything we've misunderstood, or anything important we haven't touched?"</div>
+        <div class="check-note">The most valuable thing they can say is "actually, you've missed something." That's discovery gold.</div>
+      </div>
+    </div>
+
+    <!-- STAIRCASE -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h3>The Staircase — If They Ask "What Happens Next?"</h3>
+      <table>
+        <thead>
+          <tr><th>Phase</th><th>Scope</th><th>From Them</th><th>Timeline</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Discovery</strong></td>
+            <td>This session → pre-proposal. Problem, solution, timeline, cost.</td>
+            <td>Nothing</td>
+            <td>Now → 2 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 1</strong></td>
+            <td>Document analysis agent. Ingest transaction docs, extract obligations & covenants, structured summaries with source referencing.</td>
+            <td>Sample docs (post-NDA)</td>
+            <td>6–8 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2</strong></td>
+            <td>Covenant monitoring dashboard. Automated ingestion, compliance checking, amber/red flagging.</td>
+            <td>Reporting data, covenant definitions</td>
+            <td>6–8 weeks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CLOSE -->
+    <div class="close-card">
+      <h3>The Close</h3>
+      <p style="font-size: 0.95rem; margin-bottom: 1rem;">"Here's what we'll do next. We'll take everything from today and turn it into a pre-proposal within two weeks — a clear problem statement, a proposed solution, a timeline, and a cost. We'll send it over and you tell us where we've got it wrong."</p>
+      <p style="font-size: 0.9rem; margin-bottom: 1rem;"><strong>Then the practical:</strong> "To make it as specific as possible, it would help to get a couple of sample documents — even heavily redacted. And we should get the NDA signed so both sides can speak freely."</p>
+      <p style="font-size: 0.9rem; margin-bottom: 1rem;"><strong>The one next step:</strong> Specific action + named owner + specific date. All agreed before the call ends.</p>
+      <p style="font-size: 0.85rem; color: var(--amber); font-weight: 600;">Example: "Conquer sends pre-proposal by [date], David reviews by [date + 1 week]."</p>
+      <p style="font-size: 0.85rem; color: var(--red); font-weight: 600; margin-top: 0.75rem;">"We'll be in touch" is not a next step. Get a date.</p>
+    </div>
+
+    <!-- COST/RISK -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h3>If They Ask About Cost or Risk</h3>
+      <p>"Discovery is at our risk. The pre-proposal is free. Phase 1 builds in our cloud — no infrastructure needed from your side. You see working software before you pay. On the first engagement, there's no upfront cost."</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Jeremy positioned this on the discovery call ("we don't charge until it's finished to your satisfaction") and it visibly relaxed the room. Reinforce it if needed.</p>
+    </div>
+
+    <!-- GATEWAY -->
+    <div class="card" style="margin-top: 1rem;">
+      <h3>The Gateway Opportunity</h3>
+      <p>Kurt offered unprompted to introduce Conquer to bigger FI players. Don't chase this — but if it comes up again, the right response is: "We'd love that. Let's deliver something great for you first, and then that conversation makes sense." This signals confidence and patience.</p>
+    </div>
+
+    <div class="notes-area">
+      <div class="notes-label">Live Notes — Close & Next Steps</div>
+      <textarea placeholder="Agreed use case, next step, owner, date, sample docs commitment, NDA status..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<!-- ROOM MODE TOGGLE -->
+<button class="room-toggle" onclick="toggleRoomMode()">Room Mode</button>
+
+<script>
+// === BEAT NAVIGATION ===
+let currentBeat = 1;
+function switchBeat(n) {
+  currentBeat = n;
+  document.querySelectorAll('.beat-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.beat-tab[data-beat="${n}"]`).classList.add('active');
+  document.querySelectorAll('.beat-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.beat-panel[data-beat="${n}"]`).classList.add('active');
+  // Mark previous beats as completed
+  document.querySelectorAll('.beat-tab').forEach(t => {
+    const b = parseInt(t.dataset.beat);
+    if (b < n) t.classList.add('completed');
+  });
+  // Progress bar
+  document.getElementById('progressFill').style.width = (n * 20) + '%';
+}
+
+// === TIMER ===
+let timerRunning = false;
+let timerSeconds = 0;
+let timerInterval = null;
+function toggleTimer() {
+  const btn = document.getElementById('timerBtn');
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    btn.textContent = 'Resume';
+    btn.classList.remove('running');
+  } else {
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+      const s = (timerSeconds % 60).toString().padStart(2, '0');
+      const el = document.getElementById('timer');
+      el.textContent = m + ':' + s;
+      if (timerSeconds >= 75 * 60) el.classList.add('danger');
+      else if (timerSeconds >= 60 * 60) { el.classList.add('warning'); el.classList.remove('danger'); }
+      else { el.classList.remove('warning', 'danger'); }
+    }, 1000);
+    btn.textContent = 'Pause';
+    btn.classList.add('running');
+  }
+  timerRunning = !timerRunning;
+}
+
+// === SIGNALS ===
+function toggleSignal(el) { el.classList.toggle('tagged'); }
+
+// === PROBES ===
+function toggleProbe(el) { el.classList.toggle('asked'); }
+
+// === CONCEPTS ===
+function toggleConcept(el) { el.classList.toggle('deployed'); }
+
+// === SPEC CHECKS ===
+function toggleSpec(el) { el.classList.toggle('checked'); }
+
+// === VALIDATION CHECKPOINTS ===
+function cycleCheck(el) {
+  if (!el.classList.contains('confirmed') && !el.classList.contains('corrected')) {
+    el.classList.add('confirmed');
+    el.querySelector('.check-icon').textContent = '✓';
+  } else if (el.classList.contains('confirmed')) {
+    el.classList.remove('confirmed');
+    el.classList.add('corrected');
+    el.querySelector('.check-icon').textContent = '!';
+  } else {
+    el.classList.remove('corrected');
+    el.querySelector('.check-icon').textContent = '';
+  }
+}
+
+// === ROOM MODE ===
+function toggleRoomMode() {
+  document.body.classList.toggle('room-mode');
+  const btn = document.querySelector('.room-toggle');
+  btn.textContent = document.body.classList.contains('room-mode') ? 'Exit Room Mode' : 'Room Mode';
+}
+</script>
+
+</body>
+</html>
