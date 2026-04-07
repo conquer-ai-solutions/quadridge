@@ -633,9 +633,51 @@
   }
   tbody tr:last-child td { border-bottom: none; }
   td strong { color: var(--text-bright); }
+
+  /* FILE SWITCHER */
+  .file-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 1.5rem;
+    background: #060911;
+    border-bottom: 1px solid var(--border);
+  }
+  .file-switcher .fs-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+  .file-switcher a {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .file-switcher a:hover { color: var(--text); }
+  .file-switcher a.current {
+    color: var(--brand);
+    border-bottom-color: var(--brand);
+  }
 </style>
 </head>
 <body>
+
+<div class="file-switcher">
+  <span class="fs-label">Quadridge</span>
+  <a href="quadridge-whiteboard-briefing.html">Prep Briefing</a>
+  <a href="quadridge-session.html" class="current">Session Runner</a>
+  <a href="quadridge-demo.html">Live Demo</a>
+</div>
 
 <!-- TOP BAR -->
 <div class="topbar">

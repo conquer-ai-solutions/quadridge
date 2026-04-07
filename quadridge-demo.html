@@ -34,9 +34,49 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
 #root { min-height:100vh; }
+
+.file-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 1.5rem;
+  background: #060911;
+  border-bottom: 1px solid var(--border);
+}
+.file-switcher .fs-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+.file-switcher a {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.file-switcher a:hover { color: #CBD5E1; }
+.file-switcher a.current {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
 </style>
 </head>
 <body>
+<div class="file-switcher">
+  <span class="fs-label">Quadridge</span>
+  <a href="quadridge-whiteboard-briefing.html">Prep Briefing</a>
+  <a href="quadridge-session.html">Session Runner</a>
+  <a href="quadridge-demo.html" class="current">Live Demo</a>
+</div>
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;

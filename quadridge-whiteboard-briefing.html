@@ -422,9 +422,50 @@
     border-top: 1px solid var(--border);
     margin: 2rem 0;
   }
+  /* FILE SWITCHER */
+  .file-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 2rem;
+    background: #0B0F1A;
+    border-bottom: 1px solid var(--border);
+  }
+  .file-switcher .fs-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+  .file-switcher a {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .file-switcher a:hover { color: var(--text); }
+  .file-switcher a.current {
+    color: var(--brand-red, #E63329);
+    border-bottom-color: var(--brand-red, #E63329);
+  }
 </style>
 </head>
 <body>
+
+<div class="file-switcher">
+  <span class="fs-label">Quadridge</span>
+  <a href="quadridge-whiteboard-briefing.html" class="current">Prep Briefing</a>
+  <a href="quadridge-session.html">Session Runner</a>
+  <a href="quadridge-demo.html">Live Demo</a>
+</div>
 
 <nav>
   <a href="#account" class="active">Account</a>
