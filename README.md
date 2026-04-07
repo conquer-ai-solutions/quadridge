@@ -15,6 +15,8 @@ Quadridge × Conquer AI — Whiteboard Prep & Account Room
 | File | Description |
 |------|-------------|
 | `quadridge-whiteboard-briefing.html` | Full whiteboard prep briefing — account overview, the room, use cases, playbook, watch-outs, history |
+| `quadridge-session.html` | Interactive session runner — 5-beat whiteboard tool with timer, signal tracking, probe questions, TASHDE mapper, validation checkpoints |
+| `quadridge-demo.html` | Indicative demo — document intelligence & covenant monitoring AI with inbox, portfolio dashboard, and Ask AI chat |
 
 ---
 
