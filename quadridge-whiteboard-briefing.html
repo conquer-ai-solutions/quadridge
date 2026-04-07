@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadridge — Whiteboard Prep Briefing</title>
+<style>
+  :root {
+    --brand-red: #E63329;
+    --teal: #0D9488;
+    --teal-light: #CCFBF1;
+    --bg: #0F172A;
+    --bg-card: #1E293B;
+    --bg-card-alt: #273449;
+    --text: #E2E8F0;
+    --text-muted: #94A3B8;
+    --text-bright: #F8FAFC;
+    --green: #22C55E;
+    --amber: #F59E0B;
+    --red: #EF4444;
+    --purple: #A78BFA;
+    --border: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 1rem 1.2rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+
+  /* SECTIONS */
+  section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  /* HERO */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem 3rem;
+    text-align: left;
+  }
+  .hero .meta {
+    font-size: 0.8rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .hero .lede {
+    font-size: 1.15rem;
+    color: var(--text);
+    max-width: 700px;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .hero-grid .item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .hero-grid .item .label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .hero-grid .item .value {
+    font-size: 0.95rem;
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+
+  /* HEADINGS */
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-intro {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  /* STATS STRIP */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+    text-align: center;
+  }
+  .stat .num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--teal);
+  }
+  .stat .desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.3rem;
+  }
+
+  /* PEOPLE CARDS */
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .person-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .person-card .name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.2rem;
+  }
+  .person-card .role {
+    font-size: 0.8rem;
+    color: var(--teal);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.75rem;
+  }
+  .person-card p {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* USE CASE CARDS */
+  .uc-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--border);
+  }
+  .uc-card.priority { border-left-color: var(--green); }
+  .uc-card.secondary { border-left-color: var(--amber); }
+  .uc-card.exploratory { border-left-color: var(--purple); }
+
+  .uc-card .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .uc-card.priority .tag { background: rgba(34,197,94,0.15); color: var(--green); }
+  .uc-card.secondary .tag { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .uc-card.exploratory .tag { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+  .uc-card h3 { margin-top: 0; color: var(--text-bright); }
+
+  /* ACCORDION */
+  .accordion {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1.2rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: var(--text-bright);
+    font-size: 1rem;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--bg-card-alt); }
+  .accordion-header .chevron {
+    transition: transform 0.2s;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .accordion.open .accordion-header .chevron { transform: rotate(180deg); }
+  .accordion-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+  }
+  .accordion.open .accordion-body { display: block; }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 1.5rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 2px solid var(--bg);
+  }
+  .tl-item.current::before {
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
+  }
+  .tl-date {
+    font-size: 0.75rem;
+    color: var(--teal);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .tl-title {
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.3rem;
+  }
+  .tl-body {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+  thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card-alt);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* QUOTE */
+  blockquote {
+    border-left: 3px solid var(--teal);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: rgba(13, 148, 136, 0.08);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text);
+  }
+  blockquote .attr {
+    font-style: normal;
+    font-size: 0.8rem;
+    color: var(--teal);
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .callout.warn { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); }
+  .callout.info { background: rgba(13,148,136,0.08); border-color: rgba(13,148,136,0.25); }
+  .callout .callout-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .callout.warn .callout-title { color: var(--amber); }
+  .callout .callout-body { font-size: 0.9rem; }
+
+  /* BOTTOM LINE */
+  .bottom-line {
+    background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(230,51,41,0.08));
+    border: 1px solid var(--teal);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+  .bottom-line h2 { color: var(--teal); margin-bottom: 1rem; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* UL */
+  ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+  li { margin-bottom: 0.5rem; font-size: 0.9rem; }
+  li strong { color: var(--text-bright); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#account" class="active">Account</a>
+  <a href="#room">The Room</a>
+  <a href="#usecases">Use Cases</a>
+  <a href="#playbook">Whiteboard Playbook</a>
+  <a href="#watchouts">Watch-Outs</a>
+  <a href="#history">History</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="meta">Whiteboard Prep &middot; Tue 7 April 2026 &middot; 10:00 – 11:30 am BST</div>
+  <h1>Quadridge</h1>
+  <p class="lede">First whiteboard with a niche South African structured finance and corporate governance firm. They're small but plugged into every major bank in the country. Kurt offered to open doors to bigger FI players if this goes well. Come in with the FI portfolio monitoring case study front and centre — it's a mirror of what they do every day.</p>
+  <div class="hero-grid">
+    <div class="item">
+      <div class="label">Location</div>
+      <div class="value">South Africa (remote)</div>
+    </div>
+    <div class="item">
+      <div class="label">Format</div>
+      <div class="value">Video call &middot; 90 mins</div>
+    </div>
+    <div class="item">
+      <div class="label">Conquer</div>
+      <div class="value">Bolaji, David Carter, Luke Morrisen, Nauris</div>
+    </div>
+    <div class="item">
+      <div class="label">Intro via</div>
+      <div class="value">Natalia (mutual contact)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<section id="account">
+  <h2>Account Overview</h2>
+  <p class="section-intro">A small but deeply connected firm in South African capital markets. They're the people behind the billion-rand structures — not the banks themselves, but the governance, administration and oversight layer that sits around them.</p>
+
+  <h3>Who is Quadridge?</h3>
+  <p>Quadridge is a specialist corporate governance and structured finance administration firm based in South Africa. They service banks, reinsurance companies, and asset managers — setting up and managing legal structures (companies, trusts, SPVs), providing board-level governance oversight, and monitoring covenant compliance on structured finance transactions.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">Small</div>
+      <div class="desc">Team Size</div>
+    </div>
+    <div class="stat">
+      <div class="num">FI / Capital Markets</div>
+      <div class="desc">Sector</div>
+    </div>
+    <div class="stat">
+      <div class="num">South Africa</div>
+      <div class="desc">HQ</div>
+    </div>
+    <div class="stat">
+      <div class="num">Billion-Rand</div>
+      <div class="desc">Structures Under Mgmt</div>
+    </div>
+  </div>
+
+  <h3>Why they matter right now</h3>
+  <p>Three things make this interesting beyond its size. First, the work they do — covenant monitoring, document analysis, compliance administration — is almost identical to the asset management case study Jeremy and David already walked them through on the discovery call. We're not selling into unfamiliar territory; we're selling into a mirror of work we've already delivered.</p>
+  <p>Second, the banks are pushing more oversight responsibility onto firms like Quadridge. David said explicitly that non-bank financial institutions are asking them to prepare reports and present them to boards — work that used to sit inside the banks. Their scope is growing, but their headcount isn't. That's the pressure point.</p>
+  <p>Third, Kurt was direct about introductions. He said they're connected to influential people in the banks and could introduce Conquer to "much bigger players than ourselves." If we deliver well here, this becomes a gateway into South African FI broadly.</p>
+
+  <h3>How the intro came about</h3>
+  <p>Natalia introduced Quadridge to Conquer after what sounds like a case study or event where she saw the FI portfolio monitoring work. She connected David (Quadridge) with the Conquer team, and the discovery call followed. Kurt referenced having known David (their side) for roughly 20 years — this is a long-standing professional relationship, not a cold lead.</p>
+</section>
+
+<!-- THE ROOM -->
+<section id="room">
+  <h2>The Room</h2>
+  <p class="section-intro">Two principals on the client side. Both were on the discovery call and both engaged meaningfully — they're taking this seriously.</p>
+
+  <h3>Who's in the room</h3>
+  <p style="color: var(--amber); font-size: 0.9rem; font-weight: 600; margin-bottom: 1.5rem;">Three confirmed from Quadridge: David, Kurt, and Sinah (sinah@quadridge.co.za — new name, wasn't on the discovery call). Find out who Sinah is before the session — could be operational staff, which is exactly what David Carter asked for.</p>
+
+  <div class="people-grid">
+    <div class="person-card">
+      <div class="name">David</div>
+      <div class="role">Principal / Managing Director</div>
+      <p>The operator. Did most of the talking on the discovery call. Deeply knowledgeable about the day-to-day: he described the workflow problems, the legal document analysis challenge, and the covenant monitoring gap in granular detail. He's the one who said they're "moving into a space where we are being made responsible for oversight" — he sees the workload growing and knows they can't just hire their way out. Cost-conscious but open. His closing line on the discovery call was that he'd want to start with "the small ones first, quickly implemented" and then phase up. Give him a concrete, fast Phase 1 and he'll run with it.</p>
+    </div>
+    <div class="person-card">
+      <div class="name">Kurt</div>
+      <div class="role">Principal / Co-Founder</div>
+      <p>The relationship and the big-picture thinker. Spoke less on the discovery call but set the context perfectly: "although we deal at the highest levels with huge billion-rand structures, our firm itself is relatively small." He's the one who unprompted offered to introduce Conquer to bigger FI players. Read that as genuine — he's testing whether we're good enough to recommend. Don't oversell to him. He'll be watching whether we understand the nuance of their work, not just the technology.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 2rem;">Conquer on the call</h3>
+  <div class="people-grid">
+    <div class="person-card">
+      <div class="name">David Carter</div>
+      <div class="role">Chief Commercial Officer</div>
+      <p>Leading. Already has rapport from the discovery call. Set the tone well — positioned the whiteboard as free, no-risk, and collaborative. Needs to drive the agenda and keep the session focused on surfacing concrete workflows rather than staying at the strategic level.</p>
+    </div>
+    <div class="person-card">
+      <div class="name">Bolaji</div>
+      <div class="role">Conquer AI</div>
+      <p>On the call. Familiar with the FI case studies and delivery patterns. Can speak to technical feasibility and how the document intelligence and monitoring solutions work in practice.</p>
+    </div>
+    <div class="person-card">
+      <div class="name">Luke Morrisen</div>
+      <div class="role">Conquer AI</div>
+      <p>Supporting. On the invite.</p>
+    </div>
+    <div class="person-card">
+      <div class="name">Nauris</div>
+      <div class="role">Conquer AI — Organised the session</div>
+      <p>Set up the calendar invite and coordinated scheduling. On the call.</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 1rem;">
+    <div class="callout-title" style="color: var(--red);">Dale is on leave</div>
+    <div class="callout-body">Dale Parr is out of office until April 14. He's not available for this session. Jeremy Ames was on the discovery call but is not on the whiteboard invite — confirm whether he's joining.</div>
+  </div>
+
+  <div class="callout info" style="margin-top: 2rem;">
+    <div class="callout-title">Operational staff</div>
+    <div class="callout-body">David Carter explicitly recommended Quadridge bring "people who actually do the stuff — the people who have to do those workflows." If they do bring operational staff, that changes the session dynamic significantly — it becomes less strategic and more tactical, which is exactly what we want. Lean into the detail with them.</div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section id="usecases">
+  <h2>Use Cases</h2>
+  <p class="section-intro">Three distinct problem areas surfaced on the discovery call. All three are genuine. The question for the whiteboard is which one becomes the entry point — and David (Quadridge) already told us: start small, move fast, phase up.</p>
+
+  <div class="uc-card priority">
+    <span class="tag">Priority &middot; Use Case 01</span>
+    <h3>Legal Document Analysis &amp; Board Pack Intelligence</h3>
+    <p>Every time a new structured finance transaction lands, Quadridge receives 600–800 pages of legal documentation. They have to read it, understand the structure, identify the obligations, and sometimes comment on the legals. David's word: "you just cannot actually go through all of that detail, so we just literally skim." Board packs are the same problem — hundreds of pages, and the team needs to spot red flags in financial statements before meetings.</p>
+    <h4>The opportunity</h4>
+    <p>Document ingestion, extraction of key obligations and covenants, summarisation of financial data with source referencing, and red-flag highlighting on financial statements. This is the closest match to the asset management case study Jeremy walked through on the discovery call — where the AI extracts the seven things you have to monitor from a 500-page lending document and tells you exactly where it found each data point.</p>
+    <h4>Why this is the entry point</h4>
+    <p>It's the most painful (they're literally skimming 800-page documents), the most familiar to us (we've built this), and the most demonstrable in a short timeframe. David also mentioned wanting "high level summaries" of legal documentation as "a huge boon." The language of relief was strongest here.</p>
+  </div>
+
+  <div class="uc-card secondary">
+    <span class="tag">Secondary &middot; Use Case 02</span>
+    <h3>Covenant Monitoring &amp; Compliance Oversight</h3>
+    <p>Quadridge provides oversight on structured finance transactions — checking that data from the asset manager or issuer matches the covenants, that cash flows reconcile with bank statements, and that nothing is in breach. This is currently done in Excel spreadsheets, manually, and "subject to human error." The banks are increasingly pushing this work onto Quadridge rather than doing it in-house, which means the volume is growing while the team isn't.</p>
+    <h4>The opportunity</h4>
+    <p>Automated covenant extraction from transaction documents, ongoing monitoring against reported data, breach detection and amber/red flagging, and a dashboard view similar to what David Carter described on the call — "100 companies have submitted reports, these three are in amber, this one has gone below cash at the bank." Source referencing throughout so analysts can verify every flag.</p>
+    <h4>Why secondary, not primary</h4>
+    <p>This is a bigger build. It requires understanding their specific data flows, integration with however they currently receive reporting data, and the monitoring logic is transaction-specific. It's a Phase 2 conversation once we've proven ourselves on document analysis. But it's the long-term value play — this is where the real operational leverage sits.</p>
+  </div>
+
+  <div class="uc-card exploratory">
+    <span class="tag">Exploratory &middot; Use Case 03</span>
+    <h3>Workflow Automation — Entity Setup &amp; Administration</h3>
+    <p>Setting up companies, trusts, and SPVs follows a predetermined process every time — same forms, same engagements, same data entry. Tax returns have different deadlines across entities, and David admitted that "it can be easy for one or two to slip through the cracks." Meeting deadlines, timetables — all manually tracked.</p>
+    <h4>The opportunity</h4>
+    <p>Process automation for entity setup workflows, intelligent deadline tracking and alerting across the portfolio, and template-driven document generation. This is more traditional process automation than AI — but with an AI layer for exception handling and intelligent scheduling.</p>
+    <h4>Why exploratory</h4>
+    <p>This is real and it's painful, but it's further from our core strength (which is the language and document intelligence layer) and closer to traditional process automation / workflow tooling. We can address it, but it shouldn't be the thing that defines the relationship. Park it as a Phase 3 conversation and keep the focus on where AI creates step-change value.</p>
+  </div>
+
+  <blockquote>
+    "We're also moving into a space where we are being made responsible for oversight. We've got some non-bank financial institutions that don't have the banking infrastructure to produce these reports, and they're wanting us to prepare these reports and present them to the boards."
+    <div class="attr">— David (Quadridge), Discovery Call</div>
+  </blockquote>
+</section>
+
+<!-- PLAYBOOK -->
+<section id="playbook">
+  <h2>Whiteboard Playbook</h2>
+  <p class="section-intro">This is a 90-minute session. The discovery call already covered a lot of ground — they told us their problems, we showed relevant case studies, and both sides liked what they heard. The whiteboard needs to go deeper, not wider.</p>
+
+  <div class="accordion open">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      Opening — First 10 Minutes
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <p>Don't re-pitch. They already had an hour with David Carter and Jeremy. The opening should be: "Thanks for making time for this. Last session you walked us through three areas — document analysis, covenant monitoring, and workflow automation. Before we dig into any of those, has anything changed since we last spoke? Any new priorities, or anything that's moved up the list?"</p>
+      <p>This does two things: it shows we retained what they said (which matters to a small firm — they're used to being forgotten by vendors), and it gives them a chance to redirect if something has shifted. If they brought operational staff, ask those people to introduce themselves and describe what they actually do day-to-day. That's gold.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      The Questions We Need Answered
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <p>The discovery call gave us the "what." The whiteboard needs the "how." These are the gaps:</p>
+      <ul>
+        <li><strong>On legal document analysis:</strong> When a new transaction lands — walk me through it. Who receives the 600 pages? What do they do first? What are they actually looking for? How long does it take before the team feels confident they understand the structure? What gets missed?</li>
+        <li><strong>On board packs:</strong> How far in advance do you receive them? What's the prep process before a board meeting? Where do the red flags usually hide — in the financials, the narrative, or in what's missing?</li>
+        <li><strong>On covenant monitoring:</strong> How does the data come in — email, portal, spreadsheet? What does the checking process look like today? How often do breaches get caught late? What happens when one slips through?</li>
+        <li><strong>On deadlines and compliance:</strong> How are tax deadlines and filing dates currently tracked? Is it a shared system or individual knowledge? When things slip, what's the consequence?</li>
+        <li><strong>On technology:</strong> What systems are you running today? Email client, document management, any existing tools for covenant tracking?</li>
+        <li><strong>On appetite:</strong> David said "start with the small ones first." What does "small" mean to you — small in scope, small in cost, or fast to deliver?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      What to Show — And What Not To
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <p><strong>Show:</strong> The asset management case study again — but this time go deeper. On the discovery call, Jeremy set the scene and David Carter described the dashboard. In the whiteboard, make it concrete: show how the 500-page document becomes seven monitored covenants, how the dashboard surfaces amber and red flags, how the source referencing works. This is the proof point that lands hardest because it's a direct mirror of their covenant monitoring work.</p>
+      <p><strong>Show:</strong> The private equity document processing example Jeremy mentioned — a thousand proposals distilled into 450 investment committee templates. This mirrors Quadridge's legal document analysis challenge: unstructured input, structured output, expensive humans freed to make decisions rather than move data.</p>
+      <p><strong>Don't show:</strong> Anything that looks like a generic product demo. They explicitly said they value bespoke solutions — Jeremy's "we build outside your environment to your client specification" clearly landed. Keep everything framed as "built for you."</p>
+      <p><strong>Draw on the whiteboard:</strong> The before/after of their legal document analysis workflow. Today: 800 pages arrive → human skims → manual extraction → hope nothing was missed. Tomorrow: 800 pages arrive → AI extracts obligations, covenants, key terms → human reviews summary with source links → flags what needs attention. Let them correct the diagram. The corrections tell us what we got wrong.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      How to Frame the Staircase
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <p>David (Quadridge) practically gave us the staircase himself: "identify the small ones first, quickly implemented, and then perhaps in phases." Don't fight that instinct — build on it.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Scope</th>
+            <th>Dependency</th>
+            <th>Timeline</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Discovery</strong></td>
+            <td>Whiteboard → pre-proposal. Define the problem, agree on the first use case, scope success metrics.</td>
+            <td>None from their side</td>
+            <td>Now → 2 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 1</strong></td>
+            <td>Legal document analysis agent. Ingest transaction documents, extract key obligations and covenants, produce structured summaries with source referencing. Built in Conquer cloud against sample documents.</td>
+            <td>Sample transaction docs (anonymised if needed post-NDA)</td>
+            <td>6–8 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2</strong></td>
+            <td>Covenant monitoring dashboard. Automated ingestion of reporting data, compliance checking against extracted covenants, amber/red flagging with audit trail.</td>
+            <td>Reporting data samples, covenant definitions</td>
+            <td>6–8 weeks</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3</strong></td>
+            <td>Workflow automation. Entity setup, deadline tracking, board pack preparation support.</td>
+            <td>Process documentation, system access</td>
+            <td>TBD</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>The key message: Phase 1 is self-contained, low-dependency, and delivers value quickly. It also builds the foundation (document intelligence layer) that Phase 2 and Phase 3 sit on top of.</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      How to Close the Session
+      <span class="chevron">&#9660;</span>
+    </div>
+    <div class="accordion-body">
+      <p>The close should be simple: "Here's what we heard today. We'll turn this into a pre-proposal within two weeks — a clear problem statement, a proposed solution, a timeline, and a cost. We'll send it over and you tell us where we've got it wrong." </p>
+      <p>Then the practical: "To make the pre-proposal as specific as possible, it would help to get a couple of sample documents — even heavily redacted ones — so we can show you exactly how the AI would process them. And we should get the NDA signed so both sides can speak freely." David Carter already raised the NDA on the discovery call, so this should be straightforward.</p>
+      <p>If they push on pricing, don't dodge it. Give a range: "Phase 1 builds like this typically sit in the £X–Y range depending on complexity. We'll be precise in the pre-proposal." Don't let pricing ambiguity become a reason to stall.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WATCH-OUTS -->
+<section id="watchouts">
+  <h2>Watch-Outs</h2>
+  <p class="section-intro">Things that could derail the session or the deal if we're not careful.</p>
+
+  <div class="callout warn">
+    <div class="callout-title">Don't treat them like a small account</div>
+    <div class="callout-body">Kurt said it directly: they're small, but they manage billion-rand structures and are connected to every major bank in South Africa. If we treat this as a minor engagement, they'll feel it. More importantly, if we deliver well, Kurt explicitly offered to introduce us to "much bigger players." This is a gateway account. Treat the whiteboard with the same rigour as a F500 session.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Don't let the conversation stay at 30,000 feet</div>
+    <div class="callout-body">The discovery call was strategic by design — it was an intro. The whiteboard needs to go operational. If David and Kurt show up without operational staff and want to stay at the high level, gently push: "This is really helpful context. To make the pre-proposal sharp, can we walk through one specific example? Pick the last transaction that landed on your desk — what happened step by step?" Get into the weeds or we leave without enough to write a credible proposal.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">The NDA isn't signed yet</div>
+    <div class="callout-body">David Carter raised NDAs at the end of the discovery call. If they haven't been signed by the time of the whiteboard, both sides will be holding back. Chase this before the session. If it's not done, acknowledge it upfront: "We know we haven't got the NDA sorted yet — let's work with what we can today and go deeper once that's in place."</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Jeremy's South Africa connection is an asset — use it</div>
+    <div class="callout-body">Jeremy spent years working with Standard Chartered in South Africa. He mentioned it on the discovery call and it clearly registered with Kurt and David. In the whiteboard, let Jeremy lead on the case studies and the "we understand your world" framing. His credibility in their market is genuine — it's not a sales tactic, and they'll know the difference.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title" style="color: var(--red);">Don't promise what we can't staff</div>
+    <div class="callout-body">South Africa is a new market for Conquer. Timezone, regulatory context, and data residency may all be factors. Don't commit to timelines or delivery models on the whiteboard that assume the same setup as a UK or US engagement. If they ask about deployment specifics, be honest: "We'll need to understand your data residency requirements as part of the proposal. We build in cloud, and we'll make sure the architecture works for your environment."</div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+  <h2>Account History</h2>
+  <p class="section-intro">Short history — this is a new relationship. One discovery call, one whiteboard. Keep the momentum.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Early 2026 — Intro via Natalia</div>
+      <div class="tl-title">Natalia makes the introduction</div>
+      <div class="tl-body">Natalia connected Quadridge to Conquer after seeing or hearing about Conquer's FI portfolio monitoring work. She described it as an "AI driven solution to make life lighter and easier." David (Quadridge) said it "piqued my interest."</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Discovery Call — Date from transcript</div>
+      <div class="tl-title">Discovery call — David Carter, Jeremy Ames, Kurt, David (Quadridge), Natalia</div>
+      <div class="tl-body">Full discovery session. Conquer walked through three FI case studies (asset management covenant monitoring, web dashboard, private equity document processing). Quadridge described three pain areas (document analysis, covenant monitoring, workflow automation). Both sides agreed to a whiteboarding session as the next step. David Carter proposed NDA exchange and sending the FI use case catalogue.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Post-Discovery — Actions</div>
+      <div class="tl-title">Follow-ups agreed</div>
+      <div class="tl-body">Three actions from the discovery call: (1) Get NDA signed, (2) Send FI use case catalogue to Quadridge, (3) Schedule whiteboarding session. Status of each: TBC — confirm before the whiteboard.</div>
+    </div>
+    <div class="tl-item current">
+      <div class="tl-date">Tue 7 April 2026</div>
+      <div class="tl-title">Whiteboarding Session</div>
+      <div class="tl-body">The session. Go deep on document analysis as the lead use case. Surface enough operational detail to write a credible pre-proposal. Leave with agreed next steps and names for the pre-proposal review.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM LINE -->
+<section>
+  <div class="bottom-line">
+    <h2>Bottom Line</h2>
+    <h3>What winning looks like</h3>
+    <p>We leave the session with one agreed use case (legal document analysis), enough operational detail to write a specific pre-proposal, a commitment to share sample documents post-NDA, and two weeks to deliver the pre-proposal. If Kurt reaffirms the offer to introduce us to bigger FI players, that's the bonus — but don't chase it. Deliver first.</p>
+    <h3>The metric of success</h3>
+    <p>David said "start with the small ones first, quickly implemented." Give him exactly that — a tight, credible Phase 1 that proves we understand his world. The covenant monitoring dashboard and the workflow automation are the long game. Win the first build, and the rest follows.</p>
+  </div>
+</section>
+
+<footer>
+  Quadridge &middot; Whiteboard Prep &middot; Tue 7 April 2026<br>
+  Conquer AI — Internal &amp; Confidential
+</footer>
+
+<script>
+function toggleAccordion(header) {
+  const acc = header.parentElement;
+  acc.classList.toggle('open');
+}
+
+// Active nav highlighting on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 80;
+    if (pageYOffset >= top) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
