@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quadridge — Document Intelligence &amp; Covenant Monitoring AI</title>
+<title>Quadridge — Document Intelligence & Covenant Monitoring AI</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -12,62 +12,79 @@
 
 :root {
   --brand: #0D9488;
-  --brand-light: rgba(13,148,136,0.1);
+  --brand-dark: #0A766C;
+  --brand-light: rgba(13,148,136,0.08);
+  --brand-lighter: rgba(13,148,136,0.04);
   --red: #EF4444;
-  --red-bg: rgba(239,68,68,0.08);
+  --red-bg: rgba(239,68,68,0.06);
+  --red-border: rgba(239,68,68,0.15);
   --amber: #F59E0B;
-  --amber-bg: rgba(245,158,11,0.08);
-  --green: #22C55E;
-  --green-bg: rgba(34,197,94,0.08);
-  --purple: #A78BFA;
-  --bg: #0B0F1A;
-  --bg-card: #141926;
-  --bg-card-alt: #1C2333;
-  --bg-hover: #1E2740;
-  --text: #CBD5E1;
-  --text-muted: #64748B;
-  --text-bright: #F1F5F9;
-  --border: #1E293B;
-  --border-light: #334155;
+  --amber-bg: rgba(245,158,11,0.06);
+  --amber-border: rgba(245,158,11,0.15);
+  --green: #10B981;
+  --green-bg: rgba(16,185,129,0.06);
+  --green-border: rgba(16,185,129,0.15);
+  --blue: #3B82F6;
+  --bg: #F5F5F7;
+  --card: #FFFFFF;
+  --card-hover: #FAFAFA;
+  --text: #1D1D1F;
+  --text-secondary: #424245;
+  --text-dim: #6E6E73;
+  --text-light: #86868B;
+  --border: rgba(0,0,0,0.07);
+  --border-strong: rgba(0,0,0,0.12);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.06), 0 4px 6px rgba(0,0,0,0.04);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
-#root { min-height:100vh; }
+body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
 
-.file-switcher {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 0 1.5rem;
-  background: #060911;
-  border-bottom: 1px solid var(--border);
-}
-.file-switcher .fs-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-right: 1rem;
-  white-space: nowrap;
-}
-.file-switcher a {
-  display: inline-block;
-  padding: 0.6rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.file-switcher a:hover { color: #CBD5E1; }
-.file-switcher a.current {
-  color: var(--brand);
-  border-bottom-color: var(--brand);
-}
+/* FILE SWITCHER */
+.file-switcher { display:flex; align-items:center; gap:0; padding:0 24px; background:#fff; border-bottom:1px solid var(--border); }
+.file-switcher .fs-label { font-size:11px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-right:16px; }
+.file-switcher a { display:inline-block; padding:10px 14px; font-size:12px; font-weight:600; color:var(--text-dim); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.15s; }
+.file-switcher a:hover { color:var(--text-secondary); }
+.file-switcher a.current { color:var(--brand); border-bottom-color:var(--brand); }
+
+/* HEADER */
+.header { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; height:60px; padding:0 40px; background:rgba(255,255,255,0.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.header-left { display:flex; align-items:center; gap:14px; }
+.logo-mark { width:28px; height:28px; background:var(--brand); border-radius:7px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:13px; }
+.header-divider { width:1px; height:24px; background:var(--border-strong); }
+.header-product { font-size:14px; font-weight:600; color:var(--text); letter-spacing:-0.2px; }
+.header-nav { display:flex; gap:0; }
+.header-nav a { padding:20px 18px; font-size:13px; font-weight:500; color:var(--text-dim); text-decoration:none; border-bottom:2px solid transparent; transition:all 0.15s; cursor:pointer; }
+.header-nav a:hover { color:var(--text); }
+.header-nav a.active { color:var(--brand); border-bottom-color:var(--brand); font-weight:600; }
+.indicative-badge { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--amber); background:var(--amber-bg); border:1px solid var(--amber-border); padding:4px 12px; border-radius:20px; }
+
+/* ANIMATIONS */
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideInRight { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.fade-in { animation:fadeIn 0.3s ease; }
+
+/* PILLS */
+.pill { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:0.02em; }
+.pill-red { background:var(--red-bg); color:var(--red); border:1px solid var(--red-border); }
+.pill-amber { background:var(--amber-bg); color:var(--amber); border:1px solid var(--amber-border); }
+.pill-green { background:var(--green-bg); color:var(--green); border:1px solid var(--green-border); }
+.pill-brand { background:var(--brand-light); color:var(--brand); border:1px solid rgba(13,148,136,0.15); }
+
+/* CONFIDENCE DOT */
+.conf-dot { width:6px; height:6px; border-radius:50%; display:inline-block; }
+.conf-high { background:var(--green); }
+.conf-med { background:var(--amber); }
+.conf-low { background:var(--red); }
+
+#root { min-height:100vh; }
 </style>
 </head>
 <body>
@@ -78,507 +95,544 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
   <a href="quadridge-demo.html" class="current">Live Demo</a>
 </div>
 <div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
 
-// ========== DATA ==========
+<script type="text/babel">
+const {useState, useEffect, useRef, Fragment} = React;
+const e = React.createElement;
+
+// ===================== DATA =====================
+
 const DOCUMENTS = [
   {
-    id: 1,
-    name: "Absa Capital — Series 2024-3 Securitisation",
-    type: "Transaction Document",
-    pages: 742,
-    receivedDate: "2 Apr 2026",
-    status: "critical",
-    statusLabel: "2 Critical Flags",
-    sender: "Absa Capital Markets",
-    structure: "R2.4bn Residential Mortgage-Backed Security",
-    aiSummary: "Series 2024-3 is a R2.4 billion RMBS originated by Absa Bank, with Quadridge appointed as corporate trustee. The transaction involves a two-tier SPV structure with a preference share issuer and a note issuer. The AI has identified 2 critical items requiring immediate attention: (1) the interest coverage ratio covenant threshold has been set at 1.05x, which is below the 1.15x minimum Quadridge has applied to comparable Absa securitisations since 2022 — this may be intentional given the asset pool composition but warrants verification; (2) the quarterly reporting obligation references a template format that differs from the current Absa standard, meaning the existing monitoring spreadsheet will not align without modification.",
-    extractedFields: [
-      { field: "Issuer SPV", value: "Thekwini Mortgages (RF) Ltd", confidence: 98, page: 3 },
-      { field: "Transaction Size", value: "R2,400,000,000", confidence: 99, page: 1 },
-      { field: "Asset Class", value: "Residential Mortgage-Backed Securities", confidence: 99, page: 5 },
-      { field: "Originator", value: "Absa Bank Limited", confidence: 99, page: 2 },
-      { field: "Trustee (Corporate)", value: "Quadridge Trustees (Pty) Ltd", confidence: 97, page: 14 },
-      { field: "Interest Coverage Ratio Covenant", value: "1.05x minimum", confidence: 96, page: 94 },
-      { field: "Debt Service Coverage Ratio", value: "1.10x minimum", confidence: 97, page: 96 },
-      { field: "Cash Reserve Required", value: "R120,000,000 (5% of outstanding)", confidence: 95, page: 102 },
-      { field: "Reporting Frequency", value: "Quarterly — 30 business days post-period", confidence: 98, page: 187 },
-      { field: "Reporting Template", value: "Format B-Rev (non-standard)", confidence: 89, page: 189 },
-      { field: "Waterfall Priority", value: "Senior Notes > Mezzanine > Equity", confidence: 97, page: 210 },
-      { field: "Governing Law", value: "South African Law", confidence: 99, page: 738 },
+    id:1,
+    sender:"Absa Capital Markets",
+    senderShort:"Absa Capital",
+    subject:"Series 2024-3 — Residential Mortgage-Backed Security — Transaction Documents for Trustee Appointment",
+    type:"Transaction Document",
+    typeShort:"Transaction",
+    pages:742,
+    size:"48.2 MB",
+    received:"2 Apr 2026, 09:14",
+    receivedShort:"2 Apr",
+    status:"critical",
+    flagCount:2,
+    amberCount:1,
+    structure:"R2.4bn RMBS — Thekwini Mortgages (RF) Ltd",
+    value:"R2,400,000,000",
+    processingTime:"84 seconds",
+    summary:`This is a R2.4 billion residential mortgage-backed securitisation originated by Absa Bank, with Quadridge appointed as corporate trustee to the issuer SPV, Thekwini Mortgages (RF) Ltd.
+
+The AI has completed extraction of all key terms across 742 pages. Two items require immediate attention before Quadridge accepts the appointment:
+
+1. The interest coverage ratio covenant has been set at 1.05x minimum. This is below the 1.15x threshold Quadridge has applied to every comparable Absa RMBS since Series 2022-1. The lower threshold may be intentional — the underlying asset pool has a weighted average LTV of 62%, which is stronger than the 2022 and 2023 series — but this needs explicit verification with Absa before sign-off.
+
+2. The quarterly reporting obligation on page 189 references "Format B-Rev" — a template that does not match the current Absa standard used across all other active series. If accepted as-is, the existing monitoring spreadsheet will require manual restructuring for every quarterly compliance check. This is a process risk, not a legal risk, but it will cost time on every reporting cycle.
+
+Additionally, there is an amber-level cross-reference issue between the cash reserve clause (page 102) and permitted investments clause (page 108) where "greater of" and "lesser of" language creates potential ambiguity. Legal review recommended.
+
+All other terms — waterfall priority, governing law, appointment conditions, indemnity provisions — are consistent with Absa standard documentation.`,
+    fields:[
+      {section:"Structure",field:"Issuer SPV",value:"Thekwini Mortgages (RF) Ltd",confidence:98,page:"3",source:"Section 1.1, Definitions"},
+      {section:"Structure",field:"Transaction Size",value:"R2,400,000,000",confidence:99,page:"1",source:"Cover page"},
+      {section:"Structure",field:"Asset Class",value:"Residential Mortgage-Backed Securities",confidence:99,page:"5",source:"Section 1.3"},
+      {section:"Structure",field:"Originator / Seller",value:"Absa Bank Limited",confidence:99,page:"2",source:"Section 1.1"},
+      {section:"Structure",field:"SPV Structure",value:"Two-tier — preference share issuer + note issuer",confidence:96,page:"8",source:"Section 2.1"},
+      {section:"Structure",field:"Trustee (Corporate)",value:"Quadridge Trustees (Pty) Ltd",confidence:97,page:"14",source:"Section 3.2, Appointment"},
+      {section:"Covenants",field:"Interest Coverage Ratio",value:"1.05x minimum",confidence:96,page:"94",source:"Section 8.4.1, Financial Covenants"},
+      {section:"Covenants",field:"Debt Service Coverage Ratio",value:"1.10x minimum",confidence:97,page:"96",source:"Section 8.4.3"},
+      {section:"Covenants",field:"Cash Reserve Required",value:"R120,000,000 (5% of outstanding)",confidence:95,page:"102",source:"Section 9.1, Reserve Account"},
+      {section:"Covenants",field:"Senior OC Test",value:"115% minimum",confidence:97,page:"98",source:"Section 8.5.1"},
+      {section:"Covenants",field:"Concentration Limit — Single Obligor",value:"2.5% of pool",confidence:94,page:"104",source:"Section 9.3.2"},
+      {section:"Reporting",field:"Reporting Frequency",value:"Quarterly — 30 business days post-period end",confidence:98,page:"187",source:"Section 14.1"},
+      {section:"Reporting",field:"Reporting Template",value:"Format B-Rev (non-standard)",confidence:89,page:"189",source:"Schedule 7, Annexure A"},
+      {section:"Reporting",field:"Annual Audit Requirement",value:"Yes — external auditor confirmation",confidence:96,page:"192",source:"Section 14.4"},
+      {section:"Waterfall",field:"Waterfall Priority",value:"Senior Notes → Mezzanine → Equity / Residual",confidence:97,page:"210",source:"Section 16.1, Payment Priority"},
+      {section:"Waterfall",field:"Liquidity Facility",value:"Absa Bank — R60m committed",confidence:95,page:"215",source:"Section 16.4"},
+      {section:"Legal",field:"Governing Law",value:"South African Law",confidence:99,page:"738",source:"Section 42.1"},
+      {section:"Legal",field:"Dispute Resolution",value:"Arbitration — AFSA Rules",confidence:97,page:"739",source:"Section 42.3"},
+      {section:"Legal",field:"Indemnity Cap",value:"Unlimited for trustee in good faith",confidence:93,page:"22",source:"Section 3.8, Indemnification"},
     ],
-    flags: [
-      { severity: "critical", title: "Interest Coverage Ratio Below Precedent", detail: "ICR covenant set at 1.05x. Quadridge has applied 1.15x minimum on comparable Absa RMBS since Series 2022-1. This is 8.7% below precedent and may reflect the higher-quality asset pool, but requires explicit sign-off before Quadridge accepts the appointment.", page: 94, action: "Escalate to David — verify with Absa whether this is intentional or a drafting error." },
-      { severity: "critical", title: "Non-Standard Reporting Template", detail: "Quarterly reporting references 'Format B-Rev' which does not match the current Absa reporting template used across Series 2022-1 through 2024-2. If accepted as-is, the existing covenant monitoring spreadsheet will require manual restructuring for every quarterly check.", page: 189, action: "Request Absa provide sample populated template. Assess effort to adapt monitoring process." },
-      { severity: "amber", title: "Cash Reserve — Lower Bound Ambiguity", detail: "Cash reserve is stated as 'R120,000,000 or 5% of outstanding notes, whichever is greater.' However, Clause 14.3.2 on page 108 references 'the lesser of' in the context of permitted investments. Cross-reference needed to confirm no conflict.", page: "102 / 108", action: "Flag to legal review. Cross-reference Clause 14.3.2 against Schedule 4." },
+    flags:[
+      {severity:"critical",icon:"🚨",title:"Interest Coverage Ratio Below Precedent",detail:"ICR covenant set at 1.05x. Quadridge has applied a 1.15x minimum on every comparable Absa RMBS since Series 2022-1 (four transactions). This represents an 8.7% reduction from established precedent.\n\nThe lower threshold may be justified — the underlying mortgage pool has a weighted average LTV of 62% and weighted average seasoning of 14 months, both stronger than prior series. However, this requires explicit verification with Absa's structuring desk before Quadridge accepts the trustee appointment.",page:"94",section:"Section 8.4.1",action:"Escalate to David — verify with Absa whether the lower ICR threshold is intentional and linked to pool quality, or a drafting oversight. Do not accept appointment until resolved."},
+      {severity:"critical",icon:"🚨",title:"Non-Standard Reporting Template (Format B-Rev)",detail:"The quarterly compliance reporting obligation references 'Format B-Rev' in Schedule 7. This template does not match the current Absa reporting standard ('Format A-3') used across Series 2022-1, 2023-1, 2023-2, and 2024-2.\n\nIf accepted as-is, the existing monitoring spreadsheet — which is structured around Format A-3 fields — will require manual restructuring for every quarterly check. Over a 5-year transaction life with 20 reporting cycles, this creates significant cumulative process overhead and increases the risk of extraction errors.",page:"189",section:"Schedule 7, Annexure A",action:"Request Absa provide a sample populated Format B-Rev template. Assess field mapping effort against existing monitoring infrastructure. If material, request amendment to Format A-3 as a condition of appointment."},
+      {severity:"amber",icon:"⚠️",title:"Cash Reserve — Cross-Reference Ambiguity",detail:"Cash reserve is stated as 'R120,000,000 or 5% of outstanding notes, whichever is greater' in Section 9.1 (page 102). However, Clause 14.3.2 on page 108 references 'the lesser of' when describing permitted investments from the reserve account.\n\nWhile these clauses address different aspects (reserve quantum vs. investment limits), the opposing language ('greater of' vs. 'lesser of') in related provisions could create interpretation difficulties during a stress scenario. Recommend legal review to confirm no conflict.",page:"102 / 108",section:"Section 9.1 & 14.3.2",action:"Flag to legal review. Cross-reference Section 9.1 against Section 14.3.2 and Schedule 4 (Permitted Investments). Request Absa confirm intended interpretation."},
     ]
   },
   {
-    id: 2,
-    name: "Standard Bank — Infrastructure Trust Q1 Board Pack",
-    type: "Board Pack",
-    pages: 186,
-    receivedDate: "4 Apr 2026",
-    status: "amber",
-    statusLabel: "1 Warning",
-    sender: "Standard Bank Corporate & Investment",
-    structure: "R890m Infrastructure Development Trust",
-    aiSummary: "Q1 2026 board pack for the Standard Bank Infrastructure Development Trust. The pack contains financial statements, asset performance reports, and compliance certificates. The AI has identified one item requiring attention: the debt-to-equity ratio reported on page 47 (2.38:1) is within 5% of the 2.50:1 covenant limit. While not yet in breach, the trajectory over the last three quarters shows consistent movement toward the threshold (Q3: 2.12:1, Q4: 2.25:1, Q1: 2.38:1). At this rate, Q2 will likely breach without intervention. The financial statements otherwise appear consistent with prior quarters.",
-    extractedFields: [
-      { field: "Trust Name", value: "Standard Bank Infrastructure Development Trust", confidence: 99, page: 1 },
-      { field: "Reporting Period", value: "Q1 2026 (Jan–Mar)", confidence: 99, page: 1 },
-      { field: "Total Asset Value", value: "R890,400,000", confidence: 98, page: 12 },
-      { field: "Debt-to-Equity Ratio", value: "2.38:1", confidence: 97, page: 47 },
-      { field: "D/E Covenant Limit", value: "2.50:1 maximum", confidence: 98, page: 47 },
-      { field: "Interest Coverage Ratio", value: "1.42x", confidence: 97, page: 48 },
-      { field: "ICR Covenant Minimum", value: "1.20x", confidence: 98, page: 48 },
-      { field: "Cash Position", value: "R34,200,000", confidence: 96, page: 23 },
-      { field: "Distributions This Period", value: "R8,500,000", confidence: 97, page: 31 },
-      { field: "Next Board Meeting", value: "18 June 2026", confidence: 94, page: 3 },
+    id:2,
+    sender:"Standard Bank Corporate & Investment Banking",
+    senderShort:"Standard Bank CIB",
+    subject:"Infrastructure Development Trust — Q1 2026 Board Pack & Financial Statements",
+    type:"Board Pack",
+    typeShort:"Board Pack",
+    pages:186,
+    size:"12.7 MB",
+    received:"4 Apr 2026, 14:32",
+    receivedShort:"4 Apr",
+    status:"amber",
+    flagCount:0,
+    amberCount:1,
+    structure:"R890m Infrastructure Development Trust",
+    value:"R890,400,000",
+    processingTime:"31 seconds",
+    summary:`Q1 2026 board pack for the Standard Bank Infrastructure Development Trust. The pack contains financial statements (pages 10–52), asset performance reports (pages 53–98), management commentary (pages 99–134), and compliance certificates (pages 135–186).
+
+The AI has identified one item requiring proactive attention: the debt-to-equity ratio reported on page 47 stands at 2.38:1, which is within 5% of the 2.50:1 covenant ceiling.
+
+What makes this significant is the trajectory. Over the last three consecutive quarters:
+• Q3 2025: 2.12:1
+• Q4 2025: 2.25:1
+• Q1 2026: 2.38:1
+
+At this rate of increase (~0.13 per quarter), Q2 2026 will breach the covenant at approximately 2.51:1.
+
+This is not yet a breach — but waiting until Q2 to raise it means the board first hears about it when it's already a problem. The recommended approach is to flag it at the June board meeting and request management present a debt reduction or equity injection strategy.
+
+All other financial metrics are within normal parameters. Interest coverage at 1.42x is comfortably above the 1.20x minimum. Cash position of R34.2m is adequate. No issues identified in the compliance certificates.`,
+    fields:[
+      {section:"Overview",field:"Trust Name",value:"Standard Bank Infrastructure Development Trust",confidence:99,page:"1",source:"Cover page"},
+      {section:"Overview",field:"Reporting Period",value:"Q1 2026 (January – March)",confidence:99,page:"1",source:"Cover page"},
+      {section:"Overview",field:"Trust Type",value:"Infrastructure Development — Ring-fenced",confidence:98,page:"4",source:"Section 1.2"},
+      {section:"Overview",field:"Total Asset Value",value:"R890,400,000",confidence:98,page:"12",source:"Statement of Financial Position"},
+      {section:"Overview",field:"Net Asset Value",value:"R374,200,000",confidence:97,page:"12",source:"Statement of Financial Position"},
+      {section:"Financial",field:"Debt-to-Equity Ratio",value:"2.38:1",confidence:97,page:"47",source:"Covenant Compliance Certificate"},
+      {section:"Financial",field:"D/E Covenant Limit",value:"2.50:1 maximum",confidence:98,page:"47",source:"Covenant Compliance Certificate"},
+      {section:"Financial",field:"D/E — Q3 2025 (prior)",value:"2.12:1",confidence:96,page:"48",source:"Trend Analysis Table"},
+      {section:"Financial",field:"D/E — Q4 2025 (prior)",value:"2.25:1",confidence:96,page:"48",source:"Trend Analysis Table"},
+      {section:"Financial",field:"Interest Coverage Ratio",value:"1.42x",confidence:97,page:"48",source:"Covenant Compliance Certificate"},
+      {section:"Financial",field:"ICR Covenant Minimum",value:"1.20x",confidence:98,page:"48",source:"Covenant Compliance Certificate"},
+      {section:"Financial",field:"Cash Position",value:"R34,200,000",confidence:96,page:"23",source:"Cash Flow Statement"},
+      {section:"Financial",field:"Distributions This Period",value:"R8,500,000",confidence:97,page:"31",source:"Distribution Schedule"},
+      {section:"Governance",field:"Next Board Meeting",value:"18 June 2026",confidence:94,page:"3",source:"Agenda Cover Note"},
+      {section:"Governance",field:"Board Composition",value:"5 non-executive, 2 independent",confidence:93,page:"136",source:"Governance Report"},
+      {section:"Governance",field:"Quorum Status",value:"Quorum present at last meeting",confidence:95,page:"137",source:"Minutes Extract"},
     ],
-    flags: [
-      { severity: "amber", title: "Debt-to-Equity Ratio Approaching Covenant Limit", detail: "D/E ratio at 2.38:1 against a 2.50:1 covenant limit — 95.2% of threshold. Trend over last 3 quarters: Q3 2.12:1 → Q4 2.25:1 → Q1 2.38:1. Linear projection puts Q2 at 2.51:1, which would constitute a breach. This is a proactive alert — no breach has occurred, but the board should be made aware of the trajectory.", page: 47, action: "Include in board meeting agenda. Recommend management present debt reduction strategy at June meeting." },
+    flags:[
+      {severity:"amber",icon:"⚠️",title:"Debt-to-Equity Ratio Approaching Covenant Ceiling — Breach Projected Q2",detail:"The D/E ratio stands at 2.38:1 against a 2.50:1 covenant maximum — 95.2% of the threshold.\n\nThe three-quarter trend is the critical signal:\n• Q3 2025: 2.12:1 (84.8% of limit)\n• Q4 2025: 2.25:1 (90.0% of limit)\n• Q1 2026: 2.38:1 (95.2% of limit)\n\nLinear projection places Q2 2026 at approximately 2.51:1, which would constitute a technical breach. The underlying driver appears to be an increase in drawn facilities (page 34) without corresponding equity growth — total debt increased R28m while equity remained static.\n\nThis is a proactive alert. No breach has occurred. But the board should hear about this trajectory before it becomes a reporting issue.",page:"47–48",section:"Covenant Compliance Certificate & Trend Analysis",action:"Include as a specific agenda item at the 18 June board meeting. Recommend management present: (a) the cause of the debt increase, (b) whether Q2 will breach, and (c) a proposed remediation strategy (debt repayment schedule or equity injection)."},
     ]
   },
   {
-    id: 3,
-    name: "Nedbank — CLO Quarterly Compliance Certificate",
-    type: "Compliance Report",
-    pages: 28,
-    receivedDate: "5 Apr 2026",
-    status: "clear",
-    statusLabel: "All Clear",
-    sender: "Nedbank Corporate & Investment Banking",
-    structure: "R1.6bn Collateralised Loan Obligation",
-    aiSummary: "Q1 2026 quarterly compliance certificate for the Nedbank CLO. All seven monitored covenants are within limits. Cash reserve fully funded at R80m (5% of outstanding). Senior overcollateralisation at 128.4% against 120% minimum. Subordinate OC at 109.2% against 105% minimum. Interest coverage at 2.81x against 1.50x minimum. Weighted average spread at 4.62% against 4.00% minimum. Diversity score at 42 against 35 minimum. No defaults in the underlying portfolio this quarter. All figures reconcile with the bank statement provided. This is a clean report — no action required beyond filing.",
-    extractedFields: [
-      { field: "Vehicle", value: "Nedbank CLO 2023-1 (RF) Ltd", confidence: 99, page: 1 },
-      { field: "Reporting Period", value: "Q1 2026", confidence: 99, page: 1 },
-      { field: "Senior OC Test", value: "128.4% (min 120%)", confidence: 98, page: 8 },
-      { field: "Subordinate OC Test", value: "109.2% (min 105%)", confidence: 97, page: 8 },
-      { field: "Interest Coverage", value: "2.81x (min 1.50x)", confidence: 98, page: 9 },
-      { field: "Cash Reserve", value: "R80,000,000 — fully funded", confidence: 99, page: 12 },
-      { field: "Portfolio Defaults", value: "0 (zero)", confidence: 99, page: 15 },
-      { field: "Diversity Score", value: "42 (min 35)", confidence: 96, page: 16 },
-      { field: "WA Spread", value: "4.62% (min 4.00%)", confidence: 97, page: 17 },
-      { field: "Bank Statement Reconciled", value: "Yes — reconciled to FNB statement dated 31 Mar 2026", confidence: 94, page: 22 },
+    id:3,
+    sender:"Nedbank Corporate & Investment Banking",
+    senderShort:"Nedbank CIB",
+    subject:"CLO 2023-1 — Q1 2026 Quarterly Compliance Certificate",
+    type:"Compliance Report",
+    typeShort:"Compliance",
+    pages:28,
+    size:"2.1 MB",
+    received:"5 Apr 2026, 11:08",
+    receivedShort:"5 Apr",
+    status:"clear",
+    flagCount:0,
+    amberCount:0,
+    structure:"R1.6bn Collateralised Loan Obligation",
+    value:"R1,600,000,000",
+    processingTime:"12 seconds",
+    summary:`Q1 2026 quarterly compliance certificate for Nedbank CLO 2023-1. This is a clean report — all seven monitored covenants are comfortably within limits, and the AI has identified no items requiring attention.
+
+Key highlights:
+• Senior overcollateralisation at 128.4% against a 120% minimum — 7% headroom
+• Subordinate OC at 109.2% against 105% minimum — comfortable margin
+• Interest coverage at 2.81x against 1.50x minimum — nearly double the threshold
+• Cash reserve fully funded at R80m (5% of outstanding)
+• Zero defaults in the underlying loan portfolio this quarter
+• Diversity score of 42 against a 35 minimum
+• Weighted average spread at 4.62% against 4.00% minimum
+• All figures reconcile with the FNB bank statement dated 31 March 2026
+
+This is the fourth consecutive clean quarter for this vehicle. No action required beyond filing. The system knows the difference between a document that needs attention and one that doesn't — this is the latter.`,
+    fields:[
+      {section:"Structure",field:"Vehicle",value:"Nedbank CLO 2023-1 (RF) Ltd",confidence:99,page:"1",source:"Certificate Header"},
+      {section:"Structure",field:"Reporting Period",value:"Q1 2026 (January – March)",confidence:99,page:"1",source:"Certificate Header"},
+      {section:"Structure",field:"Outstanding Notes",value:"R1,600,000,000",confidence:99,page:"3",source:"Section 2, Portfolio Summary"},
+      {section:"Tests",field:"Senior OC Test",value:"128.4% (minimum 120%)",confidence:98,page:"8",source:"Section 4.1, OC Test Results"},
+      {section:"Tests",field:"Subordinate OC Test",value:"109.2% (minimum 105%)",confidence:97,page:"8",source:"Section 4.1"},
+      {section:"Tests",field:"Interest Coverage Ratio",value:"2.81x (minimum 1.50x)",confidence:98,page:"9",source:"Section 4.2"},
+      {section:"Tests",field:"Weighted Average Spread",value:"4.62% (minimum 4.00%)",confidence:97,page:"17",source:"Section 5.3"},
+      {section:"Tests",field:"Diversity Score",value:"42 (minimum 35)",confidence:96,page:"16",source:"Section 5.2"},
+      {section:"Cash",field:"Cash Reserve",value:"R80,000,000 — fully funded",confidence:99,page:"12",source:"Section 4.4, Reserve Account"},
+      {section:"Cash",field:"Bank Statement Reconciled",value:"Yes — FNB statement 31 Mar 2026",confidence:94,page:"22",source:"Annexure B"},
+      {section:"Portfolio",field:"Portfolio Defaults",value:"0 (zero) this quarter",confidence:99,page:"15",source:"Section 5.1, Default Report"},
+      {section:"Portfolio",field:"Consecutive Clean Quarters",value:"4",confidence:95,page:"15",source:"Section 5.1, Historical"},
     ],
-    flags: []
+    flags:[]
   }
 ];
 
-const COVENANT_PORTFOLIO = [
-  { entity: "Absa Series 2024-3", type: "RMBS", covenants: 7, status: "critical", detail: "ICR covenant below precedent — needs sign-off", daysToReport: 12 },
-  { entity: "Std Bank Infra Trust", type: "Trust", covenants: 5, status: "amber", detail: "D/E ratio at 95% of limit — trending toward breach", daysToReport: 0 },
-  { entity: "Nedbank CLO 2023-1", type: "CLO", covenants: 7, status: "clear", detail: "All covenants within limits — clean report", daysToReport: 0 },
-  { entity: "FirstRand SPV Alpha", type: "SPV", covenants: 4, status: "clear", detail: "Last report clean. Next due 15 May.", daysToReport: 38 },
-  { entity: "Investec Mezzanine Fund III", type: "Fund", covenants: 6, status: "clear", detail: "All tests passed Q4 2025. Q1 report pending.", daysToReport: 8 },
-  { entity: "RMB Structured Credit 2024", type: "Credit", covenants: 8, status: "amber", detail: "Leverage ratio at 88% of limit. Monitoring.", daysToReport: 21 },
-  { entity: "Absa Series 2023-2", type: "RMBS", covenants: 7, status: "clear", detail: "Stable. All metrics well within bounds.", daysToReport: 12 },
-  { entity: "Standard Bank Trade Finance SPV", type: "SPV", covenants: 5, status: "clear", detail: "Clean. No issues flagged since inception.", daysToReport: 30 },
+const PORTFOLIO = [
+  {entity:"Absa Capital — Series 2024-3",type:"RMBS",size:"R2.4bn",covenants:7,status:"critical",statusLabel:"2 Critical",detail:"ICR below precedent. Non-standard reporting template. Appointment pending.",nextReport:"14 Apr",urgency:"high"},
+  {entity:"Standard Bank — Infra Trust",type:"Trust",size:"R890m",covenants:5,status:"amber",statusLabel:"Trending",detail:"D/E ratio at 95% of limit. Breach projected Q2 2026 if trend continues.",nextReport:"Filed",urgency:"medium"},
+  {entity:"RMB — Structured Credit 2024",type:"Credit",size:"R1.1bn",covenants:8,status:"amber",statusLabel:"Watch",detail:"Leverage ratio at 88% of covenant limit. Stable but elevated.",nextReport:"28 Apr",urgency:"low"},
+  {entity:"Nedbank — CLO 2023-1",type:"CLO",size:"R1.6bn",covenants:7,status:"clear",statusLabel:"All Clear",detail:"Four consecutive clean quarters. All tests comfortably within limits.",nextReport:"Filed",urgency:"none"},
+  {entity:"Investec — Mezzanine Fund III",type:"Fund",size:"R520m",covenants:6,status:"clear",statusLabel:"All Clear",detail:"Q4 2025 clean. Q1 2026 report pending — due 15 April.",nextReport:"15 Apr",urgency:"low"},
+  {entity:"FirstRand — SPV Alpha",type:"SPV",size:"R340m",covenants:4,status:"clear",statusLabel:"All Clear",detail:"Stable. Last report clean. Next due 15 May.",nextReport:"15 May",urgency:"none"},
+  {entity:"Absa Capital — Series 2023-2",type:"RMBS",size:"R1.8bn",covenants:7,status:"clear",statusLabel:"All Clear",detail:"Mature series. All metrics well within bounds. No concerns.",nextReport:"14 Apr",urgency:"none"},
+  {entity:"Standard Bank — Trade Finance SPV",type:"SPV",size:"R450m",covenants:5,status:"clear",statusLabel:"All Clear",detail:"Clean since inception. Low complexity structure.",nextReport:"7 May",urgency:"none"},
+];
+
+const DEADLINES = [
+  {entity:"Absa Series 2024-3",action:"Appointment sign-off required",due:"Before 14 Apr",urgency:"critical"},
+  {entity:"Absa Series 2024-3",action:"Q1 compliance report due",due:"14 Apr",urgency:"high"},
+  {entity:"Absa Series 2023-2",action:"Q1 compliance report due",due:"14 Apr",urgency:"normal"},
+  {entity:"Investec Mezzanine III",action:"Q1 compliance certificate due",due:"15 Apr",urgency:"medium"},
+  {entity:"RMB Structured Credit",action:"Q1 compliance report due",due:"28 Apr",urgency:"normal"},
+  {entity:"Std Bank Trade Finance",action:"Q1 compliance report due",due:"7 May",urgency:"normal"},
+  {entity:"FirstRand SPV Alpha",action:"Q1 compliance report due",due:"15 May",urgency:"normal"},
+  {entity:"Std Bank Infra Trust",action:"Board meeting — D/E ratio agenda item",due:"18 Jun",urgency:"medium"},
 ];
 
 const CHAT_RESPONSES = {
-  default: "I can help you with questions about any document in the inbox, covenant status across the portfolio, or upcoming deadlines. Try asking about a specific entity or flag.",
-  "absa": "The Absa Series 2024-3 has two critical flags. The interest coverage ratio covenant is set at 1.05x, which is below the 1.15x precedent Quadridge has applied to comparable Absa securitisations. This was found on page 94 of the transaction document. The second flag is a non-standard reporting template (Format B-Rev) referenced on page 189, which won't align with your existing monitoring spreadsheet. I'd recommend escalating the ICR issue to David for verification with Absa before accepting the appointment.",
-  "standard bank": "The Standard Bank Infrastructure Trust has a debt-to-equity ratio trending toward breach. Current reading is 2.38:1 against a 2.50:1 limit — that's 95.2% of threshold. The concerning part is the trajectory: Q3 was 2.12, Q4 was 2.25, Q1 is 2.38. If the trend continues linearly, Q2 will breach at approximately 2.51:1. This was identified on page 47 of the Q1 board pack. I'd recommend flagging this at the June board meeting and asking management for a debt reduction strategy.",
-  "nedbank": "The Nedbank CLO 2023-1 is clean. All seven covenants are comfortably within limits. Senior overcollateralisation is at 128.4% against a 120% minimum, and interest coverage is 2.81x against a 1.50x minimum. Zero defaults in the underlying portfolio. Cash reserve is fully funded. The bank statement reconciles. No action needed — just file.",
-  "deadline": "Upcoming reporting deadlines across the portfolio: Investec Mezzanine Fund III is due in 8 days (Q1 compliance certificate). Absa Series 2024-3 and 2023-2 are both due in 12 days. RMB Structured Credit 2024 is due in 21 days. Standard Bank Trade Finance SPV in 30 days. FirstRand SPV Alpha in 38 days. The Investec report is the most urgent — I'd recommend checking whether the data has been received from the fund administrator.",
-  "breach": "Currently no active breaches in the portfolio. However, two entities are on watch: Standard Bank Infrastructure Trust (D/E ratio at 95% of limit, trending toward breach by Q2) and RMB Structured Credit 2024 (leverage ratio at 88% of limit). The Standard Bank situation is more concerning due to the consistent upward trend over three consecutive quarters.",
-  "covenant": "Across the portfolio, you're monitoring 49 covenants across 8 entities. Current status: 2 entities have flags (1 critical, 1 amber), 6 are clear. The most common covenant types are interest coverage ratios (8 entities), debt-to-equity or leverage ratios (6 entities), and cash reserve requirements (7 entities). Overcollateralisation tests apply to the 3 structured credit vehicles.",
+  default:"I have full access to the document inbox, covenant portfolio, and deadline calendar. Ask me about a specific entity, flag, covenant trend, or upcoming deadline.",
+  absa:"The Absa Series 2024-3 has two critical items.\n\nFirst, the interest coverage ratio covenant is set at 1.05x (page 94, Section 8.4.1). Quadridge has applied 1.15x on every comparable Absa RMBS since 2022 — that's four transactions. The lower threshold may be justified by the stronger asset pool (62% weighted average LTV), but it needs verification with Absa's structuring desk before you accept the trustee appointment.\n\nSecond, the quarterly reporting uses 'Format B-Rev' (page 189, Schedule 7) instead of the standard 'Format A-3'. If accepted, your monitoring spreadsheet won't align — that's a process cost on every reporting cycle for the life of the transaction.\n\nThere's also an amber cross-reference issue between the cash reserve clause and permitted investments clause (pages 102 and 108).\n\nRecommendation: escalate the ICR issue to David before accepting appointment.",
+  standard:"The Standard Bank Infrastructure Trust has a debt-to-equity ratio that's trending toward breach.\n\nCurrent: 2.38:1 against a 2.50:1 ceiling — that's 95.2% of the limit.\n\nThe trend is the concern:\n• Q3 2025: 2.12:1\n• Q4 2025: 2.25:1\n• Q1 2026: 2.38:1\n\nThat's a consistent +0.13 per quarter. Linear projection puts Q2 at 2.51:1 — a technical breach.\n\nThe driver is increased drawn facilities (page 34) with no corresponding equity growth. Total debt is up R28m while equity has been static.\n\nThe next board meeting is 18 June. I'd recommend making this a specific agenda item — ask management for a remediation strategy before the Q2 numbers confirm the breach.",
+  nedbank:"Nedbank CLO 2023-1 is clean. All seven covenants are comfortably within limits:\n\n• Senior OC: 128.4% (min 120%) — 7% headroom\n• Subordinate OC: 109.2% (min 105%)\n• Interest Coverage: 2.81x (min 1.50x) — nearly double\n• Diversity Score: 42 (min 35)\n• WA Spread: 4.62% (min 4.00%)\n• Cash Reserve: R80m — fully funded\n• Defaults: Zero\n\nBank statement reconciles to FNB 31 March. This is the fourth consecutive clean quarter. No action needed — just file it.",
+  deadline:"Upcoming deadlines in order of urgency:\n\n🚨 Before 14 Apr — Absa Series 2024-3 appointment sign-off (blocked by ICR and template issues)\n📅 14 Apr — Absa Series 2024-3 and 2023-2 Q1 compliance reports\n📅 15 Apr — Investec Mezzanine Fund III Q1 certificate\n📅 28 Apr — RMB Structured Credit 2024 Q1 report\n📅 7 May — Standard Bank Trade Finance SPV Q1 report\n📅 15 May — FirstRand SPV Alpha Q1 report\n📅 18 Jun — Standard Bank Infra Trust board meeting (D/E ratio agenda item)\n\nThe Absa appointment is the most urgent — you can't sign off until the ICR and template issues are resolved with Absa.",
+  breach:"No active breaches currently. Two entities on the watch list:\n\n1. Standard Bank Infrastructure Trust — D/E at 95% of limit, trending consistently upward. Q2 breach projected at current trajectory. This is the higher risk.\n\n2. RMB Structured Credit 2024 — leverage at 88% of limit. Elevated but stable — no deteriorating trend.\n\nThe Standard Bank situation needs proactive management. The RMB position needs monitoring but isn't urgent.",
+  portfolio:"Portfolio summary across 8 monitored entities:\n\n• Total structures under oversight: R9.6bn\n• Active covenants monitored: 49\n• Status: 1 critical, 2 amber, 5 clear\n• Next 30 days: 5 reporting deadlines\n\nThe critical entity is Absa Series 2024-3 (appointment pending). The two amber entities are Standard Bank Infra Trust (D/E trending to breach) and RMB Structured Credit (leverage elevated but stable).\n\nThe five clear entities are performing well with no concerns.",
+  howlong:"Processing times for the three documents in the inbox:\n\n• Absa Series 2024-3 (742 pages): 84 seconds\n• Standard Bank Board Pack (186 pages): 31 seconds\n• Nedbank CLO Certificate (28 pages): 12 seconds\n\nAll three documents — 956 pages total — were processed in just over 2 minutes. The equivalent manual review would typically take 2–3 days of analyst time.",
 };
 
-// ========== COMPONENTS ==========
+// ===================== APP =====================
+function App(){
+  const [tab,setTab]=useState('overview');
+  const [selectedDoc,setSelectedDoc]=useState(null);
+  const [docTab,setDocTab]=useState('summary');
+  const [messages,setMessages]=useState([{role:'ai',text:"Hello. I have access to all 956 pages across 3 documents in the inbox, plus the full covenant portfolio and deadline calendar. What would you like to know?"}]);
+  const [input,setInput]=useState('');
+  const chatEnd=useRef(null);
+  useEffect(()=>{chatEnd.current?.scrollIntoView({behavior:'smooth'})},[messages]);
 
-function StatusBadge({ status }) {
-  const colors = {
-    critical: { bg: 'rgba(239,68,68,0.12)', color: '#EF4444', label: 'Critical' },
-    amber: { bg: 'rgba(245,158,11,0.12)', color: '#F59E0B', label: 'Warning' },
-    clear: { bg: 'rgba(34,197,94,0.12)', color: '#22C55E', label: 'Clear' },
-  };
-  const c = colors[status] || colors.clear;
-  return React.createElement('span', {
-    style: { background: c.bg, color: c.color, padding: '3px 10px', borderRadius: 4, fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }
-  }, c.label);
-}
-
-function ConfidenceBadge({ value }) {
-  const color = value >= 95 ? '#22C55E' : value >= 90 ? '#F59E0B' : '#EF4444';
-  return React.createElement('span', {
-    style: { color, fontWeight: 600, fontSize: '0.8rem', fontVariantNumeric: 'tabular-nums' }
-  }, value + '%');
-}
-
-function PageRef({ page }) {
-  return React.createElement('span', {
-    style: { background: 'rgba(13,148,136,0.1)', color: '#0D9488', padding: '2px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer' }
-  }, 'p.' + page);
-}
-
-// ========== MAIN APP ==========
-function App() {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [selectedDoc, setSelectedDoc] = useState(null);
-  const [docView, setDocView] = useState('summary');
-  const [chatMessages, setChatMessages] = useState([
-    { role: 'ai', text: "Hello. I have access to all documents in the inbox and the full covenant portfolio. Ask me anything — about a specific document, a flag, a deadline, or the overall portfolio status." }
-  ]);
-  const [chatInput, setChatInput] = useState('');
-  const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatMessages]);
-
-  function handleChat(input) {
-    const q = (input || chatInput).toLowerCase();
-    if (!q.trim()) return;
-    const newMessages = [...chatMessages, { role: 'user', text: input || chatInput }];
-
-    let response = CHAT_RESPONSES.default;
-    if (q.includes('absa') || q.includes('series 2024') || q.includes('icr') || q.includes('securit')) response = CHAT_RESPONSES['absa'];
-    else if (q.includes('standard') || q.includes('infra') || q.includes('d/e') || q.includes('debt')) response = CHAT_RESPONSES['standard bank'];
-    else if (q.includes('nedbank') || q.includes('clo')) response = CHAT_RESPONSES['nedbank'];
-    else if (q.includes('deadline') || q.includes('due') || q.includes('upcoming') || q.includes('next')) response = CHAT_RESPONSES['deadline'];
-    else if (q.includes('breach') || q.includes('watch') || q.includes('risk')) response = CHAT_RESPONSES['breach'];
-    else if (q.includes('covenant') || q.includes('portfolio') || q.includes('overview') || q.includes('how many')) response = CHAT_RESPONSES['covenant'];
-
-    setTimeout(() => {
-      setChatMessages([...newMessages, { role: 'ai', text: response }]);
-    }, 600);
-    setChatMessages(newMessages);
-    setChatInput('');
+  function sendChat(text){
+    const q=(text||input).toLowerCase().trim();
+    if(!q) return;
+    const newMsgs=[...messages,{role:'user',text:text||input}];
+    setMessages(newMsgs);
+    setInput('');
+    let r=CHAT_RESPONSES.default;
+    if(q.includes('absa')||q.includes('icr')||q.includes('thekwini')||q.includes('series 2024')||q.includes('securit')||q.includes('template')) r=CHAT_RESPONSES.absa;
+    else if(q.includes('standard')||q.includes('infra')||q.includes('d/e')||q.includes('debt')||q.includes('equity')||q.includes('board')) r=CHAT_RESPONSES.standard;
+    else if(q.includes('nedbank')||q.includes('clo')||q.includes('clean')) r=CHAT_RESPONSES.nedbank;
+    else if(q.includes('deadline')||q.includes('due')||q.includes('upcoming')||q.includes('next')||q.includes('calendar')||q.includes('schedule')) r=CHAT_RESPONSES.deadline;
+    else if(q.includes('breach')||q.includes('watch')||q.includes('risk')||q.includes('danger')) r=CHAT_RESPONSES.breach;
+    else if(q.includes('portfolio')||q.includes('overview')||q.includes('how many')||q.includes('summary')||q.includes('total')) r=CHAT_RESPONSES.portfolio;
+    else if(q.includes('time')||q.includes('fast')||q.includes('long')||q.includes('speed')||q.includes('process')) r=CHAT_RESPONSES.howlong;
+    setTimeout(()=>setMessages(m=>[...m,{role:'ai',text:r}]),800);
   }
 
-  const s = {
-    app: { minHeight: '100vh', display: 'flex', flexDirection: 'column' },
-    topbar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 56, background: '#141926', borderBottom: '1px solid #1E293B', position: 'sticky', top: 0, zIndex: 100 },
-    logo: { display: 'flex', alignItems: 'center', gap: 12 },
-    logoText: { fontWeight: 800, fontSize: '0.85rem', color: '#0D9488', letterSpacing: '0.05em', textTransform: 'uppercase' },
-    clientText: { fontWeight: 600, fontSize: '0.9rem', color: '#F1F5F9' },
-    badge: { background: 'rgba(245,158,11,0.12)', color: '#F59E0B', padding: '3px 10px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' },
-    tabs: { display: 'flex', gap: 0, borderBottom: '1px solid #1E293B', background: '#141926', position: 'sticky', top: 56, zIndex: 99 },
-    tab: (active) => ({ padding: '12px 20px', fontSize: '0.8rem', fontWeight: 600, color: active ? '#0D9488' : '#64748B', borderBottom: active ? '2px solid #0D9488' : '2px solid transparent', cursor: 'pointer', letterSpacing: '0.02em', transition: 'all 0.15s' }),
-    main: { flex: 1, maxWidth: 1100, margin: '0 auto', padding: '24px', width: '100%' },
-    h2: { fontSize: '1.4rem', fontWeight: 700, color: '#F1F5F9', marginBottom: 8 },
-    subtitle: { fontSize: '0.9rem', color: '#64748B', marginBottom: 24 },
-    grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
-    card: { background: '#141926', border: '1px solid #1E293B', borderRadius: 10, padding: '20px', marginBottom: 16 },
-    cardTitle: { fontSize: '0.95rem', fontWeight: 700, color: '#F1F5F9', marginBottom: 8 },
-    text: { fontSize: '0.85rem', color: '#CBD5E1', lineHeight: 1.65 },
-    textMuted: { fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6 },
-    // Inbox
-    docRow: (active) => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: active ? '#1C2333' : '#141926', border: '1px solid', borderColor: active ? '#334155' : '#1E293B', borderRadius: 8, marginBottom: 8, cursor: 'pointer', transition: 'all 0.15s' }),
-    docName: { fontWeight: 600, fontSize: '0.9rem', color: '#F1F5F9', marginBottom: 4 },
-    docMeta: { fontSize: '0.75rem', color: '#64748B' },
-    docRight: { textAlign: 'right', flexShrink: 0 },
-    // Detail
-    detailHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 },
-    backBtn: { background: 'none', border: '1px solid #334155', color: '#CBD5E1', padding: '6px 14px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' },
-    subTabs: { display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid #1E293B' },
-    subTab: (active) => ({ padding: '10px 16px', fontSize: '0.78rem', fontWeight: 600, color: active ? '#0D9488' : '#64748B', borderBottom: active ? '2px solid #0D9488' : '2px solid transparent', cursor: 'pointer' }),
-    // Table
-    table: { width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' },
-    th: { textAlign: 'left', padding: '8px 12px', background: '#1C2333', color: '#64748B', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #1E293B' },
-    td: { padding: '10px 12px', borderBottom: '1px solid #1E293B', verticalAlign: 'top', color: '#CBD5E1' },
-    // Flag card
-    flagCard: (sev) => ({ background: sev === 'critical' ? 'rgba(239,68,68,0.05)' : 'rgba(245,158,11,0.05)', border: '1px solid', borderColor: sev === 'critical' ? 'rgba(239,68,68,0.2)' : 'rgba(245,158,11,0.2)', borderRadius: 8, padding: 16, marginBottom: 12 }),
-    flagTitle: (sev) => ({ fontWeight: 700, fontSize: '0.9rem', color: sev === 'critical' ? '#EF4444' : '#F59E0B', marginBottom: 6 }),
-    // Chat
-    chatArea: { flex: 1, overflowY: 'auto', padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 },
-    chatBubble: (role) => ({ maxWidth: '80%', alignSelf: role === 'user' ? 'flex-end' : 'flex-start', background: role === 'user' ? '#0D9488' : '#1C2333', color: role === 'user' ? '#fff' : '#CBD5E1', padding: '12px 16px', borderRadius: role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', fontSize: '0.85rem', lineHeight: 1.6 }),
-    chatInput: { display: 'flex', gap: 8, padding: '12px 0 0' },
-    chatField: { flex: 1, background: '#1C2333', border: '1px solid #334155', borderRadius: 8, padding: '10px 14px', color: '#F1F5F9', fontSize: '0.85rem', fontFamily: 'Inter, sans-serif', outline: 'none' },
-    chatBtn: { background: '#0D9488', border: 'none', borderRadius: 8, padding: '10px 20px', color: '#fff', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'Inter, sans-serif' },
-    chip: { display: 'inline-block', background: '#1C2333', border: '1px solid #334155', borderRadius: 20, padding: '6px 14px', fontSize: '0.78rem', color: '#CBD5E1', cursor: 'pointer', marginRight: 8, marginBottom: 8, transition: 'all 0.15s' },
-    // Covenant row
-    covRow: (status) => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: '#141926', border: '1px solid #1E293B', borderLeft: `3px solid ${status === 'critical' ? '#EF4444' : status === 'amber' ? '#F59E0B' : '#22C55E'}`, borderRadius: '0 8px 8px 0', marginBottom: 8 }),
-    // Stats
-    statGrid: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 },
-    statCard: { background: '#141926', border: '1px solid #1E293B', borderRadius: 8, padding: 16, textAlign: 'center' },
-    statNum: { fontSize: '1.5rem', fontWeight: 800, color: '#0D9488' },
-    statLabel: { fontSize: '0.7rem', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 4 },
-    // Before/After
-    baCol: { background: '#141926', border: '1px solid #1E293B', borderRadius: 10, padding: 20, flex: 1 },
-    baTitle: (color) => ({ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: color, marginBottom: 12 }),
-    baStep: { display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12, fontSize: '0.85rem' },
-    baNum: (color) => ({ width: 22, height: 22, borderRadius: '50%', background: color, color: '#0B0F1A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 800, flexShrink: 0 }),
-  };
+  const pillFor=(status)=>status==='critical'?'pill pill-red':status==='amber'?'pill pill-amber':'pill pill-green';
+  const pillLabel=(status)=>status==='critical'?'Critical':status==='amber'?'Warning':'Clear';
+  const confDot=(v)=>v>=95?'conf-dot conf-high':v>=90?'conf-dot conf-med':'conf-dot conf-low';
 
-  // ===== OVERVIEW TAB =====
-  function OverviewTab() {
-    return React.createElement('div', null,
-      React.createElement('h2', { style: s.h2 }, 'Document Intelligence & Covenant Monitoring'),
-      React.createElement('p', { style: s.subtitle }, 'How AI transforms Quadridge\'s document analysis and oversight workflows'),
-
-      // Stats
-      React.createElement('div', { style: s.statGrid },
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: s.statNum }, '8'),
-          React.createElement('div', { style: s.statLabel }, 'Entities Monitored')
+  // ===================== OVERVIEW =====================
+  function Overview(){
+    return e('div',{className:'fade-in',style:{maxWidth:960,margin:'0 auto',padding:'48px 24px'}},
+      // HERO
+      e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:56,marginBottom:56,alignItems:'center'}},
+        e('div',null,
+          e('div',{style:{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:'var(--brand)',marginBottom:12}},'Conquer AI × Quadridge'),
+          e('h1',{style:{fontSize:40,fontWeight:800,color:'var(--text)',letterSpacing:'-1.5px',lineHeight:1.1,marginBottom:16}},'Document Intelligence & Covenant Monitoring'),
+          e('p',{style:{fontSize:16,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:24}},'An AI-powered system that reads your transaction documents, extracts every obligation and covenant, monitors compliance across your entire portfolio, and tells you exactly where it found everything — so your team focuses on decisions, not data extraction.'),
+          e('div',{style:{display:'flex',gap:32}},
+            e('div',null,e('div',{style:{fontSize:28,fontWeight:800,color:'var(--brand)'}},'<90s'),e('div',{style:{fontSize:11,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.05em',marginTop:2}},'Per Document')),
+            e('div',null,e('div',{style:{fontSize:28,fontWeight:800,color:'var(--text)'}},'956'),e('div',{style:{fontSize:11,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.05em',marginTop:2}},'Pages Processed')),
+            e('div',null,e('div',{style:{fontSize:28,fontWeight:800,color:'var(--red)'}},'3'),e('div',{style:{fontSize:11,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.05em',marginTop:2}},'Flags Raised')),
+          )
         ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: s.statNum }, '49'),
-          React.createElement('div', { style: s.statLabel }, 'Active Covenants')
-        ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: {...s.statNum, color: '#EF4444'} }, '2'),
-          React.createElement('div', { style: s.statLabel }, 'Flags Raised')
-        ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: {...s.statNum, color: '#22C55E'} }, '<90s'),
-          React.createElement('div', { style: s.statLabel }, 'Per Document')
+        e('div',{style:{background:'linear-gradient(135deg, rgba(13,148,136,0.08), rgba(13,148,136,0.02))',border:'1px solid rgba(13,148,136,0.12)',borderRadius:20,padding:32,position:'relative',overflow:'hidden'}},
+          e('div',{style:{fontSize:13,fontWeight:700,color:'var(--brand)',marginBottom:20,textTransform:'uppercase',letterSpacing:'0.06em'}},'Live Portfolio Status'),
+          e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}},
+            ...[
+              {n:'8',l:'Entities',c:'var(--text)'},
+              {n:'49',l:'Covenants',c:'var(--text)'},
+              {n:'R9.6bn',l:'Under Oversight',c:'var(--brand)'},
+              {n:'5',l:'Deadlines (30d)',c:'var(--amber)'},
+            ].map((s,i)=>e('div',{key:i,style:{background:'#fff',borderRadius:12,padding:16,textAlign:'center',boxShadow:'var(--shadow-sm)'}},
+              e('div',{style:{fontSize:22,fontWeight:800,color:s.c}},s.n),
+              e('div',{style:{fontSize:10,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.06em',marginTop:4}},s.l),
+            ))
+          )
         ),
       ),
 
-      // Before / After
-      React.createElement('div', { style: { ...s.cardTitle, marginBottom: 16 } }, 'Before & After'),
-      React.createElement('div', { style: { display: 'flex', gap: 16 } },
-        // Before
-        React.createElement('div', { style: s.baCol },
-          React.createElement('div', { style: s.baTitle('#EF4444') }, 'Today — Manual Process'),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '1'), React.createElement('span', { style: { color: '#CBD5E1' } }, '742-page transaction document arrives by email')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '2'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Team member skims — "cannot go through all that detail"')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '3'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Manual extraction of key covenants and obligations')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '4'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Data entered into Excel spreadsheet for monitoring')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '5'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Quarterly check — manual reconciliation against bank statements')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(239,68,68,0.2)') }, '6'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Hope nothing was missed. Sign off.')),
-          React.createElement('div', { style: { marginTop: 16, padding: '10px 14px', background: 'rgba(239,68,68,0.06)', borderRadius: 6, fontSize: '0.8rem', color: '#EF4444', fontWeight: 600 } }, '~4–6 hours per document · High error risk · No audit trail')
+      // PRODUCT DESCRIPTION
+      e('div',{style:{background:'#fff',borderRadius:'var(--radius-lg)',boxShadow:'var(--shadow-md)',padding:40,marginBottom:32}},
+        e('h2',{style:{fontSize:22,fontWeight:700,color:'var(--text)',marginBottom:16}},'What This System Does'),
+        e('p',{style:{fontSize:15,color:'var(--text-secondary)',lineHeight:1.8,marginBottom:20}},
+          'Quadridge receives hundreds of pages of transaction documents, board packs, and compliance certificates every week. Today, your team skims them — because reading 742 pages cover-to-cover for every new transaction isn\'t humanly possible. Covenants are tracked in Excel. Deadlines live in people\'s heads. When something slips, you find out too late.'
         ),
-        // After
-        React.createElement('div', { style: { ...s.baCol, borderColor: 'rgba(13,148,136,0.3)' } },
-          React.createElement('div', { style: s.baTitle('#0D9488') }, 'Tomorrow — AI-Assisted'),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '1'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Document arrives — AI ingests all 742 pages in <90 seconds')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '2'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Obligations, covenants, and key terms extracted with page references')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '3'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Red flags raised automatically — non-standard terms, precedent gaps')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '4'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Analyst reviews structured summary — verifies flags with source links')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '5'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Covenant monitoring dashboard tracks ongoing compliance automatically')),
-          React.createElement('div', { style: s.baStep }, React.createElement('div', { style: s.baNum('rgba(13,148,136,0.25)') }, '6'), React.createElement('span', { style: { color: '#CBD5E1' } }, 'Proactive alerts before breaches — not after')),
-          React.createElement('div', { style: { marginTop: 16, padding: '10px 14px', background: 'rgba(13,148,136,0.06)', borderRadius: 6, fontSize: '0.8rem', color: '#0D9488', fontWeight: 600 } }, '<90 seconds per document · Source-verified · Full audit trail')
+        e('p',{style:{fontSize:15,color:'var(--text-secondary)',lineHeight:1.8,marginBottom:20}},
+          'This system changes the operating model. Every document that arrives is read in full — every page, every clause, every number — in under 90 seconds. Obligations and covenants are extracted automatically with page-level source references. Non-standard terms are flagged against your precedent library. And the monitoring dashboard tracks compliance across your entire portfolio, catching trends (like a debt-to-equity ratio that\'s been climbing for three consecutive quarters) before they become breaches.'
+        ),
+        e('p',{style:{fontSize:15,color:'var(--text-secondary)',lineHeight:1.8,marginBottom:24}},
+          'The human stays in control. The AI doesn\'t make decisions — it surfaces the right information, from the right page, at the right time, so your team can make better decisions faster. Every flag includes the source reference. Every extracted field links back to the exact page and section. If the AI says a number looks wrong, it shows you where it found it.'
+        ),
+        e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:20}},
+          ...[
+            {title:'Document Intelligence',desc:'Reads full transaction documents (500–800+ pages). Extracts every obligation, covenant, financial metric, and key term. Provides page-level source references for every extracted field. Processes a 742-page securitisation document in 84 seconds.',color:'var(--brand)'},
+            {title:'Compliance & Standards Checking',desc:'Compares extracted terms against your historical precedent and internal standards. Flags non-standard covenants, approaching thresholds, template mismatches, and cross-reference ambiguities. Three-tier alerting: critical, warning, clear.',color:'var(--amber)'},
+            {title:'Portfolio Monitoring',desc:'Tracks covenant compliance across all entities. Ingests quarterly reports, reconciles against bank statements, and surfaces trends before they become problems. Proactive alerts when metrics approach limits — not after they breach.',color:'var(--green)'},
+          ].map((c,i)=>e('div',{key:i,style:{background:'var(--bg)',borderRadius:'var(--radius)',padding:24}},
+            e('div',{style:{width:8,height:8,borderRadius:4,background:c.color,marginBottom:10}}),
+            e('div',{style:{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:8}},c.title),
+            e('div',{style:{fontSize:13,color:'var(--text-dim)',lineHeight:1.65}},c.desc),
+          ))
         ),
       ),
 
-      // AI Functions
-      React.createElement('div', { style: { ...s.card, marginTop: 24 } },
-        React.createElement('div', { style: s.cardTitle }, 'Three AI Functions'),
-        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginTop: 12 } },
-          React.createElement('div', { style: { padding: 16, background: '#1C2333', borderRadius: 8 } },
-            React.createElement('div', { style: { fontWeight: 700, color: '#0D9488', fontSize: '0.85rem', marginBottom: 6 } }, 'Document Intelligence'),
-            React.createElement('div', { style: s.textMuted }, 'Reads full transaction documents. Extracts obligations, covenants, key terms, financial data. Provides page-level source references for every extracted field.')
-          ),
-          React.createElement('div', { style: { padding: 16, background: '#1C2333', borderRadius: 8 } },
-            React.createElement('div', { style: { fontWeight: 700, color: '#F59E0B', fontSize: '0.85rem', marginBottom: 6 } }, 'Compliance Checking'),
-            React.createElement('div', { style: s.textMuted }, 'Compares extracted terms against precedent and internal standards. Flags non-standard covenants, approaching thresholds, and potential breaches before they happen.')
-          ),
-          React.createElement('div', { style: { padding: 16, background: '#1C2333', borderRadius: 8 } },
-            React.createElement('div', { style: { fontWeight: 700, color: '#22C55E', fontSize: '0.85rem', marginBottom: 6 } }, 'Ongoing Monitoring'),
-            React.createElement('div', { style: s.textMuted }, 'Tracks covenant compliance across the full portfolio. Ingests quarterly reports, reconciles against bank statements, and surfaces trends before they become problems.')
-          ),
-        )
-      ),
-
-      React.createElement('div', { style: { textAlign: 'center', padding: '20px 0', fontSize: '0.75rem', color: '#475569' } },
-        'Indicative Demo — All data is illustrative. Built to show what a Conquer AI solution could look like for Quadridge.'
-      )
-    );
-  }
-
-  // ===== INBOX TAB =====
-  function InboxTab() {
-    if (selectedDoc) return React.createElement(DocDetail, { doc: selectedDoc });
-
-    return React.createElement('div', null,
-      React.createElement('h2', { style: s.h2 }, 'Document Inbox'),
-      React.createElement('p', { style: s.subtitle }, '3 documents received this week — 2 flagged, 1 clear'),
-      DOCUMENTS.map(doc =>
-        React.createElement('div', { key: doc.id, style: s.docRow(false), onClick: () => setSelectedDoc(doc) },
-          React.createElement('div', null,
-            React.createElement('div', { style: s.docName }, doc.name),
-            React.createElement('div', { style: s.docMeta }, doc.type + ' · ' + doc.pages + ' pages · ' + doc.sender + ' · Received ' + doc.receivedDate),
-          ),
-          React.createElement('div', { style: s.docRight },
-            React.createElement(StatusBadge, { status: doc.status }),
-            React.createElement('div', { style: { fontSize: '0.75rem', color: '#64748B', marginTop: 4 } }, doc.statusLabel)
-          ),
-        )
-      )
-    );
-  }
-
-  function DocDetail({ doc }) {
-    return React.createElement('div', null,
-      React.createElement('div', { style: s.detailHeader },
-        React.createElement('div', null,
-          React.createElement('button', { style: s.backBtn, onClick: () => setSelectedDoc(null) }, '← Back to Inbox'),
-          React.createElement('h2', { style: { ...s.h2, marginTop: 12 } }, doc.name),
-          React.createElement('p', { style: s.textMuted }, doc.type + ' · ' + doc.pages + ' pages · ' + doc.structure),
-        ),
-        React.createElement(StatusBadge, { status: doc.status }),
-      ),
-      React.createElement('div', { style: s.subTabs },
-        React.createElement('div', { style: s.subTab(docView === 'summary'), onClick: () => setDocView('summary') }, 'AI Summary'),
-        React.createElement('div', { style: s.subTab(docView === 'fields'), onClick: () => setDocView('fields') }, 'Extracted Fields'),
-        React.createElement('div', { style: s.subTab(docView === 'flags'), onClick: () => setDocView('flags') }, 'Flags & Actions'),
-      ),
-      docView === 'summary' && React.createElement('div', { style: s.card },
-        React.createElement('div', { style: { ...s.cardTitle, color: '#0D9488' } }, 'AI-Generated Summary'),
-        React.createElement('p', { style: { ...s.text, lineHeight: 1.8 } }, doc.aiSummary),
-      ),
-      docView === 'fields' && React.createElement('div', null,
-        React.createElement('table', { style: s.table },
-          React.createElement('thead', null,
-            React.createElement('tr', null,
-              React.createElement('th', { style: s.th }, 'Field'),
-              React.createElement('th', { style: s.th }, 'Extracted Value'),
-              React.createElement('th', { style: s.th }, 'Confidence'),
-              React.createElement('th', { style: s.th }, 'Source'),
-            ),
-          ),
-          React.createElement('tbody', null,
-            doc.extractedFields.map((f, i) =>
-              React.createElement('tr', { key: i },
-                React.createElement('td', { style: { ...s.td, fontWeight: 600, color: '#F1F5F9' } }, f.field),
-                React.createElement('td', { style: s.td }, f.value),
-                React.createElement('td', { style: s.td }, React.createElement(ConfidenceBadge, { value: f.confidence })),
-                React.createElement('td', { style: s.td }, React.createElement(PageRef, { page: f.page })),
-              )
+      // BEFORE / AFTER
+      e('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20,marginBottom:32}},
+        e('div',{style:{background:'#fff',borderRadius:'var(--radius-lg)',boxShadow:'var(--shadow-sm)',padding:32,borderTop:'3px solid var(--red)'}},
+          e('div',{style:{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--red)',marginBottom:16}},'Today — Manual Process'),
+          ...['742-page transaction document arrives by email','Team member skims — "cannot go through all of that detail"','Manual extraction of covenants and obligations into Excel','Quarterly compliance check — manual reconciliation against bank statements','Deadlines tracked in spreadsheets and memory','Red flags discovered in the board meeting — not before it'].map((step,i)=>
+            e('div',{key:i,style:{display:'flex',gap:12,marginBottom:14,alignItems:'flex-start'}},
+              e('div',{style:{width:22,height:22,borderRadius:11,background:'var(--red-bg)',border:'1px solid var(--red-border)',color:'var(--red)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,flexShrink:0}},i+1),
+              e('div',{style:{fontSize:13,color:'var(--text-secondary)',lineHeight:1.5,paddingTop:2}},step),
             )
           ),
+          e('div',{style:{marginTop:16,padding:'10px 14px',background:'var(--red-bg)',borderRadius:8,fontSize:12,color:'var(--red)',fontWeight:600}},'4–6 hours per document · High error risk · No audit trail · Deadlines slip'),
+        ),
+        e('div',{style:{background:'#fff',borderRadius:'var(--radius-lg)',boxShadow:'var(--shadow-sm)',padding:32,borderTop:'3px solid var(--green)'}},
+          e('div',{style:{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'var(--green)',marginBottom:16}},'Tomorrow — AI-Assisted'),
+          ...['Document arrives — AI reads all 742 pages in 84 seconds','Every obligation, covenant, and key term extracted with page references','Non-standard terms flagged automatically against your precedent library','Analyst reviews structured summary — verifies flags with source links','Covenant dashboard monitors compliance continuously across the portfolio','Proactive alerts when metrics approach limits — weeks before breach'].map((step,i)=>
+            e('div',{key:i,style:{display:'flex',gap:12,marginBottom:14,alignItems:'flex-start'}},
+              e('div',{style:{width:22,height:22,borderRadius:11,background:'var(--green-bg)',border:'1px solid var(--green-border)',color:'var(--green)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700,flexShrink:0}},i+1),
+              e('div',{style:{fontSize:13,color:'var(--text-secondary)',lineHeight:1.5,paddingTop:2}},step),
+            )
+          ),
+          e('div',{style:{marginTop:16,padding:'10px 14px',background:'var(--green-bg)',borderRadius:8,fontSize:12,color:'var(--green)',fontWeight:600}},'<90 seconds per document · Source-verified · Full audit trail · Nothing slips'),
+        ),
+      ),
+
+      e('div',{style:{textAlign:'center',padding:'16px 0',fontSize:12,color:'var(--text-light)'}},'Indicative Demo — All data is illustrative. Built to show what a Conquer AI solution could look like for Quadridge.'),
+    );
+  }
+
+  // ===================== INBOX =====================
+  function Inbox(){
+    return e('div',{className:'fade-in',style:{display:'flex',height:'calc(100vh - 140px)'}},
+      // LEFT LIST
+      e('div',{style:{width:380,borderRight:'1px solid var(--border)',background:'#fff',overflowY:'auto',flexShrink:0}},
+        e('div',{style:{padding:'16px 20px',borderBottom:'1px solid var(--border)'}},
+          e('div',{style:{fontSize:15,fontWeight:700,color:'var(--text)'}},'Inbox'),
+          e('div',{style:{fontSize:12,color:'var(--text-dim)',marginTop:2}},'3 documents this week · 956 pages total'),
+        ),
+        DOCUMENTS.map(doc=>e('div',{key:doc.id,onClick:()=>{setSelectedDoc(doc);setDocTab('summary')},style:{padding:'14px 20px',borderBottom:'1px solid var(--border)',cursor:'pointer',background:selectedDoc?.id===doc.id?'var(--brand-lighter)':'#fff',transition:'background 0.1s'}},
+          e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:6}},
+            e('div',{style:{fontSize:13,fontWeight:600,color:'var(--text)',lineHeight:1.3,flex:1,marginRight:8}},doc.senderShort),
+            e('div',{style:{fontSize:11,color:'var(--text-light)',flexShrink:0}},doc.receivedShort),
+          ),
+          e('div',{style:{fontSize:12,color:'var(--text-secondary)',lineHeight:1.4,marginBottom:8,display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical',overflow:'hidden'}},doc.subject),
+          e('div',{style:{display:'flex',gap:6,alignItems:'center'}},
+            e('span',{className:pillFor(doc.status)},doc.status==='clear'?'✓ Clear':doc.flagCount>0?doc.flagCount+' Critical':doc.amberCount+' Warning'),
+            e('span',{style:{fontSize:11,color:'var(--text-light)'}},doc.pages+' pages'),
+            e('span',{style:{fontSize:11,color:'var(--text-light)'}},'·'),
+            e('span',{style:{fontSize:11,color:'var(--text-light)'}},doc.typeShort),
+          ),
+        ))
+      ),
+      // RIGHT DETAIL
+      e('div',{style:{flex:1,overflowY:'auto',background:'var(--bg)'}},
+        selectedDoc ? e(DocDetail,{doc:selectedDoc,docTab,setDocTab}) : e('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',height:'100%',color:'var(--text-light)',fontSize:14}},'Select a document to view AI analysis')
+      ),
+    );
+  }
+
+  function DocDetail({doc,docTab,setDocTab}){
+    const sections=[...new Set(doc.fields.map(f=>f.section))];
+    return e('div',{className:'fade-in',style:{padding:24}},
+      // Header
+      e('div',{style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',padding:24,marginBottom:16}},
+        e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}},
+          e('div',{style:{flex:1}},
+            e('div',{style:{display:'flex',gap:8,alignItems:'center',marginBottom:8}},
+              e('span',{className:pillFor(doc.status)},pillLabel(doc.status)),
+              e('span',{className:'pill pill-brand'},doc.type),
+            ),
+            e('h2',{style:{fontSize:18,fontWeight:700,color:'var(--text)',marginBottom:4}},doc.sender),
+            e('div',{style:{fontSize:13,color:'var(--text-dim)',marginBottom:2}},doc.structure),
+          ),
+          e('div',{style:{textAlign:'right',flexShrink:0}},
+            e('div',{style:{fontSize:22,fontWeight:800,color:'var(--brand)'}},doc.processingTime),
+            e('div',{style:{fontSize:11,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.05em'}},'Processing Time'),
+          ),
+        ),
+        e('div',{style:{display:'flex',gap:24,marginTop:16,paddingTop:16,borderTop:'1px solid var(--border)'}},
+          ...[{l:'Pages',v:doc.pages},{l:'Size',v:doc.size},{l:'Received',v:doc.received},{l:'Fields Extracted',v:doc.fields.length},{l:'Flags',v:doc.flags.length}].map((s,i)=>
+            e('div',{key:i},e('div',{style:{fontSize:14,fontWeight:700,color:'var(--text)'}},s.v),e('div',{style:{fontSize:10,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'0.05em'}},s.l))
+          ),
+        ),
+      ),
+      // Sub tabs
+      e('div',{style:{display:'flex',gap:0,marginBottom:16,background:'#fff',borderRadius:'var(--radius-sm)',boxShadow:'var(--shadow-sm)',overflow:'hidden'}},
+        ...['summary','fields','flags'].map(t=>
+          e('div',{key:t,onClick:()=>setDocTab(t),style:{padding:'12px 20px',fontSize:13,fontWeight:600,color:docTab===t?'var(--brand)':'var(--text-dim)',borderBottom:docTab===t?'2px solid var(--brand)':'2px solid transparent',cursor:'pointer',flex:1,textAlign:'center',background:docTab===t?'var(--brand-lighter)':'#fff'}},
+            t==='summary'?'AI Summary':t==='fields'?'Extracted Fields ('+doc.fields.length+')':'Flags & Actions ('+doc.flags.length+')'
+          )
         )
       ),
-      docView === 'flags' && React.createElement('div', null,
-        doc.flags.length === 0 ?
-          React.createElement('div', { style: { ...s.card, textAlign: 'center', padding: 40 } },
-            React.createElement('div', { style: { fontSize: '1.5rem', marginBottom: 8 } }, '✓'),
-            React.createElement('div', { style: { fontWeight: 700, color: '#22C55E', fontSize: '1rem' } }, 'All Clear'),
-            React.createElement('div', { style: s.textMuted }, 'No flags raised on this document. All terms are within standard parameters.'),
-          ) :
-          doc.flags.map((f, i) =>
-            React.createElement('div', { key: i, style: s.flagCard(f.severity) },
-              React.createElement('div', { style: s.flagTitle(f.severity) }, f.title),
-              React.createElement('p', { style: s.text }, f.detail),
-              React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 } },
-                React.createElement(PageRef, { page: f.page }),
-                React.createElement('div', { style: { fontSize: '0.8rem', color: '#0D9488', fontWeight: 600 } }, f.action),
+      // Content
+      docTab==='summary' && e('div',{style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',padding:24}},
+        e('div',{style:{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--brand)',marginBottom:12}},'AI-Generated Summary'),
+        doc.summary.split('\n\n').map((p,i)=>e('p',{key:i,style:{fontSize:14,color:'var(--text-secondary)',lineHeight:1.8,marginBottom:16}},
+          p.startsWith('•')?e('span',{style:{display:'block',paddingLeft:16}},p):p
+        )),
+      ),
+      docTab==='fields' && e('div',{style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',overflow:'hidden'}},
+        sections.map(sec=>e(Fragment,{key:sec},
+          e('div',{style:{padding:'10px 20px',background:'var(--bg)',fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',color:'var(--text-dim)',borderBottom:'1px solid var(--border)'}},sec),
+          e('table',{style:{width:'100%',borderCollapse:'collapse'}},
+            e('thead',null,e('tr',null,
+              e('th',{style:{textAlign:'left',padding:'8px 20px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Field'),
+              e('th',{style:{textAlign:'left',padding:'8px 20px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Value'),
+              e('th',{style:{textAlign:'center',padding:'8px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)',width:50}},'Conf'),
+              e('th',{style:{textAlign:'left',padding:'8px 20px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Source'),
+            )),
+            e('tbody',null,doc.fields.filter(f=>f.section===sec).map((f,i)=>
+              e('tr',{key:i,style:{background:i%2===0?'#fff':'var(--card-hover)'}},
+                e('td',{style:{padding:'10px 20px',fontSize:13,fontWeight:600,color:'var(--text)',borderBottom:'1px solid var(--border)'}},f.field),
+                e('td',{style:{padding:'10px 20px',fontSize:13,color:'var(--text-secondary)',fontFamily:"'Courier New',monospace",borderBottom:'1px solid var(--border)'}},f.value),
+                e('td',{style:{padding:'10px 12px',textAlign:'center',borderBottom:'1px solid var(--border)'}},e('span',{className:confDot(f.confidence),title:f.confidence+'%'}),e('span',{style:{fontSize:11,color:'var(--text-light)',marginLeft:4}},f.confidence+'%')),
+                e('td',{style:{padding:'10px 20px',borderBottom:'1px solid var(--border)'}},
+                  e('span',{style:{background:'var(--brand-light)',color:'var(--brand)',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:600,cursor:'pointer'}},'p.'+f.page),
+                  e('span',{style:{fontSize:11,color:'var(--text-light)',marginLeft:8}},f.source),
+                ),
+              )
+            )),
+          ),
+        )),
+      ),
+      docTab==='flags' && e('div',null,
+        doc.flags.length===0 ? e('div',{style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',padding:48,textAlign:'center'}},
+          e('div',{style:{width:48,height:48,borderRadius:24,background:'var(--green-bg)',border:'1px solid var(--green-border)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:20,marginBottom:12}},'✓'),
+          e('div',{style:{fontSize:16,fontWeight:700,color:'var(--green)',marginBottom:4}},'All Clear'),
+          e('div',{style:{fontSize:13,color:'var(--text-dim)'}},'No flags raised. All terms within standard parameters. Fourth consecutive clean quarter.'),
+        ) : doc.flags.map((f,i)=>e('div',{key:i,style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',padding:24,marginBottom:12,borderLeft:'4px solid '+(f.severity==='critical'?'var(--red)':'var(--amber)')}},
+          e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}},
+            e('div',{style:{display:'flex',gap:8,alignItems:'center'}},
+              e('span',{style:{fontSize:16}},f.icon),
+              e('span',{style:{fontSize:15,fontWeight:700,color:f.severity==='critical'?'var(--red)':'var(--amber)'}},f.title),
+            ),
+            e('span',{style:{background:'var(--brand-light)',color:'var(--brand)',padding:'2px 8px',borderRadius:4,fontSize:11,fontWeight:600}},'p.'+f.page),
+          ),
+          f.detail.split('\n\n').map((p,j)=>e('p',{key:j,style:{fontSize:13,color:'var(--text-secondary)',lineHeight:1.7,marginBottom:10}},
+            p.startsWith('•')?e('span',{style:{display:'block',paddingLeft:16}},p):p
+          )),
+          e('div',{style:{marginTop:12,padding:'12px 16px',background:f.severity==='critical'?'var(--red-bg)':'var(--amber-bg)',borderRadius:8,border:'1px solid '+(f.severity==='critical'?'var(--red-border)':'var(--amber-border)')}},
+            e('div',{style:{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',color:f.severity==='critical'?'var(--red)':'var(--amber)',marginBottom:4}},'Recommended Action'),
+            e('div',{style:{fontSize:13,color:'var(--text-secondary)',lineHeight:1.5}},f.action),
+          ),
+        )),
+      ),
+    );
+  }
+
+  // ===================== PORTFOLIO =====================
+  function Portfolio(){
+    const sorted=[...PORTFOLIO].sort((a,b)=>{const o={critical:0,amber:1,clear:2};return o[a.status]-o[b.status]});
+    return e('div',{className:'fade-in',style:{maxWidth:960,margin:'0 auto',padding:'32px 24px'}},
+      e('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:24}},
+        e('div',null,
+          e('h2',{style:{fontSize:22,fontWeight:700,color:'var(--text)'}},'Covenant Monitoring Dashboard'),
+          e('div',{style:{fontSize:13,color:'var(--text-dim)',marginTop:4}},'8 entities · 49 covenants · R9.6bn under oversight'),
+        ),
+        e('div',{style:{display:'flex',gap:8}},
+          ...[{n:1,l:'Critical',c:'var(--red)',bg:'var(--red-bg)',b:'var(--red-border)'},{n:2,l:'Warning',c:'var(--amber)',bg:'var(--amber-bg)',b:'var(--amber-border)'},{n:5,l:'Clear',c:'var(--green)',bg:'var(--green-bg)',b:'var(--green-border)'}].map((s,i)=>
+            e('div',{key:i,style:{background:s.bg,border:'1px solid '+s.b,borderRadius:8,padding:'8px 16px',textAlign:'center'}},
+              e('div',{style:{fontSize:18,fontWeight:800,color:s.c}},s.n),
+              e('div',{style:{fontSize:10,color:s.c,textTransform:'uppercase',letterSpacing:'0.05em'}},s.l),
+            )
+          ),
+        ),
+      ),
+      sorted.map((c,i)=>e('div',{key:i,style:{background:'#fff',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',padding:'16px 24px',marginBottom:8,borderLeft:'4px solid '+(c.status==='critical'?'var(--red)':c.status==='amber'?'var(--amber)':'var(--green)'),display:'flex',alignItems:'center',justifyContent:'space-between',transition:'box-shadow 0.15s',cursor:'pointer'}},
+        e('div',{style:{flex:1}},
+          e('div',{style:{display:'flex',gap:8,alignItems:'center',marginBottom:4}},
+            e('span',{style:{fontSize:14,fontWeight:700,color:'var(--text)'}},c.entity),
+            e('span',{className:pillFor(c.status),style:{fontSize:10}},c.statusLabel),
+          ),
+          e('div',{style:{fontSize:12,color:'var(--text-dim)',lineHeight:1.5}},c.detail),
+        ),
+        e('div',{style:{display:'flex',gap:24,alignItems:'center',flexShrink:0,marginLeft:24}},
+          e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:16,fontWeight:700,color:'var(--text)'}},c.covenants),e('div',{style:{fontSize:9,color:'var(--text-light)',textTransform:'uppercase',letterSpacing:'0.05em'}},'Covenants')),
+          e('div',{style:{textAlign:'center'}},e('div',{style:{fontSize:16,fontWeight:700,color:'var(--text)'}},c.size),e('div',{style:{fontSize:9,color:'var(--text-light)',textTransform:'uppercase',letterSpacing:'0.05em'}},'Size')),
+          e('div',{style:{textAlign:'center',minWidth:60}},e('div',{style:{fontSize:14,fontWeight:700,color:c.urgency==='high'?'var(--red)':c.urgency==='medium'?'var(--amber)':'var(--text)'}},c.nextReport),e('div',{style:{fontSize:9,color:'var(--text-light)',textTransform:'uppercase',letterSpacing:'0.05em'}},'Next Report')),
+        ),
+      )),
+      // Deadlines
+      e('div',{style:{background:'#fff',borderRadius:'var(--radius-lg)',boxShadow:'var(--shadow-md)',padding:28,marginTop:24}},
+        e('h3',{style:{fontSize:16,fontWeight:700,color:'var(--text)',marginBottom:16}},'Upcoming Deadlines'),
+        e('table',{style:{width:'100%',borderCollapse:'collapse'}},
+          e('thead',null,e('tr',null,
+            e('th',{style:{textAlign:'left',padding:'8px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Entity'),
+            e('th',{style:{textAlign:'left',padding:'8px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Action Required'),
+            e('th',{style:{textAlign:'left',padding:'8px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)'}},'Due'),
+            e('th',{style:{textAlign:'center',padding:'8px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--text-light)',borderBottom:'1px solid var(--border)',width:70}},'Urgency'),
+          )),
+          e('tbody',null,DEADLINES.map((d,i)=>
+            e('tr',{key:i},
+              e('td',{style:{padding:'10px 12px',fontSize:13,fontWeight:600,color:'var(--text)',borderBottom:'1px solid var(--border)'}},d.entity),
+              e('td',{style:{padding:'10px 12px',fontSize:13,color:'var(--text-secondary)',borderBottom:'1px solid var(--border)'}},d.action),
+              e('td',{style:{padding:'10px 12px',fontSize:13,fontWeight:600,color:'var(--text)',borderBottom:'1px solid var(--border)'}},d.due),
+              e('td',{style:{padding:'10px 12px',textAlign:'center',borderBottom:'1px solid var(--border)'}},
+                e('span',{className:'pill '+(d.urgency==='critical'?'pill-red':d.urgency==='high'||d.urgency==='medium'?'pill-amber':'pill-green'),style:{fontSize:10}},d.urgency)
               ),
             )
-          )
+          )),
+        ),
       ),
     );
   }
 
-  // ===== PORTFOLIO TAB =====
-  function PortfolioTab() {
-    const critical = COVENANT_PORTFOLIO.filter(c => c.status === 'critical').length;
-    const amber = COVENANT_PORTFOLIO.filter(c => c.status === 'amber').length;
-    const clear = COVENANT_PORTFOLIO.filter(c => c.status === 'clear').length;
-
-    return React.createElement('div', null,
-      React.createElement('h2', { style: s.h2 }, 'Covenant Monitoring Dashboard'),
-      React.createElement('p', { style: s.subtitle }, 'Portfolio-wide covenant status and reporting deadlines'),
-
-      React.createElement('div', { style: s.statGrid },
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: s.statNum }, COVENANT_PORTFOLIO.length),
-          React.createElement('div', { style: s.statLabel }, 'Entities'),
-        ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: { ...s.statNum, color: '#EF4444' } }, critical),
-          React.createElement('div', { style: s.statLabel }, 'Critical'),
-        ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: { ...s.statNum, color: '#F59E0B' } }, amber),
-          React.createElement('div', { style: s.statLabel }, 'Warning'),
-        ),
-        React.createElement('div', { style: s.statCard },
-          React.createElement('div', { style: { ...s.statNum, color: '#22C55E' } }, clear),
-          React.createElement('div', { style: s.statLabel }, 'Clear'),
+  // ===================== ASK AI =====================
+  function AskAI(){
+    return e('div',{className:'fade-in',style:{maxWidth:720,margin:'0 auto',padding:'32px 24px',display:'flex',flexDirection:'column',height:'calc(100vh - 140px)'}},
+      e('div',{style:{display:'flex',alignItems:'center',gap:12,marginBottom:8}},
+        e('div',{style:{width:36,height:36,borderRadius:10,background:'var(--brand)',display:'flex',alignItems:'center',justifyContent:'center',color:'#fff',fontWeight:800,fontSize:14}},'Q'),
+        e('div',null,
+          e('div',{style:{fontSize:15,fontWeight:700,color:'var(--text)'}},'Quadridge AI'),
+          e('div',{style:{display:'flex',alignItems:'center',gap:6}},e('div',{style:{width:6,height:6,borderRadius:3,background:'var(--green)',animation:'pulse 2s infinite'}}),e('span',{style:{fontSize:11,color:'var(--text-dim)'}},'Online · Full portfolio access')),
         ),
       ),
-
-      COVENANT_PORTFOLIO.sort((a,b) => {
-        const order = { critical: 0, amber: 1, clear: 2 };
-        return order[a.status] - order[b.status];
-      }).map((c, i) =>
-        React.createElement('div', { key: i, style: s.covRow(c.status) },
-          React.createElement('div', { style: { flex: 1 } },
-            React.createElement('div', { style: { fontWeight: 600, color: '#F1F5F9', fontSize: '0.9rem', marginBottom: 2 } }, c.entity),
-            React.createElement('div', { style: { fontSize: '0.8rem', color: '#64748B' } }, c.detail),
-          ),
-          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 } },
-            React.createElement('div', { style: { textAlign: 'center' } },
-              React.createElement('div', { style: { fontWeight: 700, color: '#F1F5F9', fontSize: '0.9rem' } }, c.covenants),
-              React.createElement('div', { style: { fontSize: '0.65rem', color: '#64748B', textTransform: 'uppercase' } }, 'Covenants'),
-            ),
-            React.createElement('div', { style: { textAlign: 'center', minWidth: 70 } },
-              React.createElement('div', { style: { fontWeight: 700, color: c.daysToReport === 0 ? '#22C55E' : c.daysToReport <= 10 ? '#F59E0B' : '#CBD5E1', fontSize: '0.9rem' } }, c.daysToReport === 0 ? 'Filed' : c.daysToReport + 'd'),
-              React.createElement('div', { style: { fontSize: '0.65rem', color: '#64748B', textTransform: 'uppercase' } }, 'Next Report'),
-            ),
-            React.createElement(StatusBadge, { status: c.status }),
-          ),
+      e('div',{style:{display:'flex',flexWrap:'wrap',gap:6,marginBottom:12,marginTop:8}},
+        ...['What flags need my attention?','Any covenants near breach?','Upcoming deadlines?','Tell me about the Absa securitisation','Nedbank CLO status','How fast does it process documents?','Portfolio overview'].map((chip,i)=>
+          e('span',{key:i,onClick:()=>sendChat(chip),style:{display:'inline-block',background:'#fff',border:'1px solid var(--border)',borderRadius:20,padding:'6px 14px',fontSize:12,color:'var(--text-secondary)',cursor:'pointer',transition:'all 0.15s',boxShadow:'var(--shadow-sm)'}},chip)
         )
-      )
-    );
-  }
-
-  // ===== ASK AI TAB =====
-  function AskAITab() {
-    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: 'calc(100vh - 160px)' } },
-      React.createElement('h2', { style: s.h2 }, 'Ask AI'),
-      React.createElement('p', { style: { ...s.subtitle, marginBottom: 12 } }, 'Query any document, covenant, or deadline in the portfolio'),
-      React.createElement('div', { style: { marginBottom: 12 } },
-        ['What flags need attention?', 'Any covenants near breach?', 'Upcoming deadlines?', 'Tell me about the Absa securitisation', 'Nedbank CLO status'].map((chip, i) =>
-          React.createElement('span', { key: i, style: s.chip, onClick: () => handleChat(chip) }, chip)
-        ),
       ),
-      React.createElement('div', { style: s.chatArea },
-        chatMessages.map((msg, i) =>
-          React.createElement('div', { key: i, style: s.chatBubble(msg.role) }, msg.text)
-        ),
-        React.createElement('div', { ref: chatEndRef })
+      e('div',{style:{flex:1,overflowY:'auto',display:'flex',flexDirection:'column',gap:12,paddingTop:8}},
+        messages.map((m,i)=>e('div',{key:i,style:{maxWidth:'85%',alignSelf:m.role==='user'?'flex-end':'flex-start',background:m.role==='user'?'var(--brand)':'#fff',color:m.role==='user'?'#fff':'var(--text-secondary)',padding:'12px 18px',borderRadius:m.role==='user'?'14px 14px 4px 14px':'14px 14px 14px 4px',fontSize:13,lineHeight:1.7,boxShadow:'var(--shadow-sm)',whiteSpace:'pre-line'}},m.text)),
+        e('div',{ref:chatEnd}),
       ),
-      React.createElement('div', { style: s.chatInput },
-        React.createElement('input', {
-          style: s.chatField,
-          value: chatInput,
-          onChange: e => setChatInput(e.target.value),
-          onKeyDown: e => { if (e.key === 'Enter') handleChat(); },
-          placeholder: 'Ask about any document, entity, or covenant...',
-        }),
-        React.createElement('button', { style: s.chatBtn, onClick: () => handleChat() }, 'Send'),
+      e('div',{style:{display:'flex',gap:8,paddingTop:12}},
+        e('input',{value:input,onChange:ev=>setInput(ev.target.value),onKeyDown:ev=>{if(ev.key==='Enter')sendChat()},placeholder:'Ask about any document, entity, covenant, or deadline...',style:{flex:1,background:'#fff',border:'1px solid var(--border-strong)',borderRadius:10,padding:'12px 18px',fontSize:14,color:'var(--text)',fontFamily:'Inter,sans-serif',outline:'none',boxShadow:'var(--shadow-sm)'}}),
+        e('button',{onClick:()=>sendChat(),style:{background:'var(--brand)',border:'none',borderRadius:10,padding:'12px 24px',color:'#fff',fontWeight:700,fontSize:13,cursor:'pointer',fontFamily:'Inter,sans-serif',boxShadow:'var(--shadow-sm)'}},'Send'),
       ),
     );
   }
 
-  // ===== RENDER =====
-  return React.createElement('div', { style: s.app },
-    // Topbar
-    React.createElement('div', { style: s.topbar },
-      React.createElement('div', { style: s.logo },
-        React.createElement('span', { style: s.logoText }, 'Conquer AI'),
-        React.createElement('span', { style: s.clientText }, 'Quadridge — Document Intelligence'),
+  // ===================== RENDER =====================
+  return e('div',null,
+    e('div',{className:'header'},
+      e('div',{className:'header-left'},
+        e('div',{className:'logo-mark'},'C'),
+        e('div',{className:'header-divider'}),
+        e('span',{className:'header-product'},'Quadridge — Document Intelligence'),
       ),
-      React.createElement('span', { style: s.badge }, 'Indicative Demo'),
+      e('div',{className:'header-nav'},
+        e('a',{className:tab==='overview'?'active':'',onClick:()=>setTab('overview')},'Overview'),
+        e('a',{className:tab==='inbox'?'active':'',onClick:()=>{setTab('inbox');if(!selectedDoc)setSelectedDoc(DOCUMENTS[0]);setDocTab('summary')}},'Inbox'),
+        e('a',{className:tab==='portfolio'?'active':'',onClick:()=>setTab('portfolio')},'Portfolio'),
+        e('a',{className:tab==='askai'?'active':'',onClick:()=>setTab('askai')},'Ask AI'),
+      ),
+      e('span',{className:'indicative-badge'},'Indicative Demo'),
     ),
-    // Tabs
-    React.createElement('div', { style: s.tabs },
-      React.createElement('div', { style: s.tab(activeTab === 'overview'), onClick: () => setActiveTab('overview') }, 'Overview'),
-      React.createElement('div', { style: s.tab(activeTab === 'inbox'), onClick: () => { setActiveTab('inbox'); setSelectedDoc(null); } }, 'Inbox'),
-      React.createElement('div', { style: s.tab(activeTab === 'portfolio'), onClick: () => setActiveTab('portfolio') }, 'Portfolio'),
-      React.createElement('div', { style: s.tab(activeTab === 'askai'), onClick: () => setActiveTab('askai') }, 'Ask AI'),
-    ),
-    // Main
-    React.createElement('div', { style: s.main },
-      activeTab === 'overview' && React.createElement(OverviewTab),
-      activeTab === 'inbox' && React.createElement(InboxTab),
-      activeTab === 'portfolio' && React.createElement(PortfolioTab),
-      activeTab === 'askai' && React.createElement(AskAITab),
-    ),
+    tab==='overview'&&e(Overview),
+    tab==='inbox'&&e(Inbox),
+    tab==='portfolio'&&e(Portfolio),
+    tab==='askai'&&e(AskAI),
   );
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById('root'));
+ReactDOM.render(e(App),document.getElementById('root'));
 </script>
 </body>
 </html>
